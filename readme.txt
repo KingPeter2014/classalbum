@@ -1,0 +1,1 @@
+This project creates a web application in PHP-MySQL to enable fresh students register at departmental level. The data collected here will be used for exam check-in/out, class list, result processing among others. 
