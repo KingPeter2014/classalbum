@@ -1,0 +1,60 @@
+body{
+	background-color: green;
+}
+#header {
+	margin: 0;
+	border-radius: 2em;
+	color: gold;
+	width: 100%;
+	height: 25%;
+	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
+	
+}
+select,textarea,input[type="text"],input[type="email"],input[type="submit"],input[type="reset"],input[type="password"] {
+	width: 100%;
+}
+table {
+	width:100%;
+}
+fieldset{border: 0px;}
+
+.active > a:first-child {
+  color: #e2007a !important;
+}
+#stalogin{
+	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
+	float:left;
+	width:48%;
+	border-radius: 2em;
+	border-right: 10px;
+
+}
+#stulogin{
+	float:right;
+	width:48%;
+	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
+	border-radius: 2em;
+
+	}
+#register{
+	border-radius: 2em;
+	background: green;
+	}
+
+#leftdata{
+float:left;
+width:48%;
+
+}
+
+#rightdata{float: right;
+	border-radius: 2em;
+	width:48%;
+	
+}
+
+#footer {width : 100%;
+float : left;
+background: green url(../images/gradient.png) repeat-x 0 -110px;
+}
+
