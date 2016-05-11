@@ -75,12 +75,15 @@ class StudentManager {
 		if (trim ( $jambno ) == ""){
 			return "Please, enter your JAMB Registration Number.";
 		}
-		if($sessionadmitted=='0' || trim($sessionadmitted)==''|| is_null($sessionadmitted)){
+		if($sessionadmitted=="0"){
 			return "Please, Select a valid Session.";
 
 		}
+		if (trim ( $faculty ) == ""){
+			return "Please, Select a School/Faculty.";
+		}
 
-		return "I will register student here. OK";
+		return "I will register student here. OK".$faculty.$dept.$opt;
 
 	}
 
