@@ -4,10 +4,27 @@ body{
 #header {
 	margin: 0;
 	border-radius: 2em;
-	color: gold;
+	color: white;
 	width: 100%;
 	height: 25%;
 	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
+	
+}
+#mainmenu{
+	width:20%;
+	height: 50%;
+	float:left;
+	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
+	border-radius: 2em;
+}
+#centralarea{
+	float: right;
+	width:65%;
+}
+.majoraction {
+	margin: 0;
+	color: white;
+	height: 25%;
 	
 }
 select,textarea,input[type="text"],input[type="email"],input[type="submit"],input[type="reset"],input[type="password"] {

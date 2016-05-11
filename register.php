@@ -1,15 +1,5 @@
-<html>
-	<head>
-		<link rel="stylesheet" href="css/styles.css" type="text/css">
-		<title> EEE Departmental Class Album</title>
+<?php include "inc/header.php" ?>
 
-	</head>
-	<body>
-		<div id="header"><center><h1>Department of Electrical/Electronic Engineering</h1>
-
-			 SCHOOL OF ENGINEERING AND ENGINEERING TECHNOLOGY<br>
-			FEDERAL UNIVERSITY OF TECHNOLOGY OWERRI
-			<H1>DEPARTMENTAL ALBUM</H1> </center></div>
 		<div id="register">
 			<fieldset>
 				<FORM action="register.php" method="post">
@@ -22,6 +12,9 @@
 																<option value="3">300</option>
 																<option value="4">400</option>
 																<option value="5">500</option>
+																<option value="7">PGD</option>
+																<option value="8">M.Eng/M.Sc</option>
+																<option value="9">Ph.D</option>
 														</select></td>
 					</tr>
 					<tr>
@@ -36,6 +29,29 @@
 					</tr>
 					<tr>
 								<td>Matriculation No.</td><td><input type="text" name="matricno" placeholder="University Number"></td>
+					</tr>
+					<tr>
+						<td>School</td><td><select name="school" id="school"><option value="SEET">SEET</option>
+																<option value="SOPS">SOPS</option>
+																<option value="SMAT">SMAT</option>
+																<option value="SOHT">SOHT</option>
+																<option value="SAAT">SAAT</option>
+																<option value="PGS">Postgraduate School</option>
+																
+														</select></td>
+					</tr>
+					<tr>
+						<td>Department</td><td><select name="department" id="department"><option value="EEE">EEE</option>
+																
+														</select></td>
+					</tr>
+					<tr>
+						<td>Specialisation</td><td><select name="specialisation" id="specialisation"><option value="none">None</option>
+																									<option value="COE">COE</option>
+																									<option value="ECE">ECE</option>
+																									<option value="PSE">PSE</option>
+																
+														</select></td>
 					</tr>
 					<tr>
 								<td>Title</td><td><select name="title"><option value="0">--Select--</option>
@@ -77,15 +93,17 @@
 														</select></td>
 							</tr>
 							<tr>
-								<td>School Address</td><td><textarea name="schooladdress" rows="6"></textarea></td>
+								<td>School Address</td><td><textarea name="schooladdress" rows="4"></textarea></td>
 							</tr>
-
+							
 				</table>
 			</div>
 			<div id="rightdata">
 						<table>
+
+
 							<tr>
-								<td>Home Address</td><td><textarea name="homeaddress" rows="4"></textarea></td>
+								<td>Home Address</td><td><textarea name="homeaddress" rows="6"></textarea></td>
 							</tr>
 							<tr>
 								<td>Country of Origin</td><td><select name="country"><option value="0">--Select--</option>
