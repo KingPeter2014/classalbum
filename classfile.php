@@ -11,16 +11,7 @@ class ClassAlbumManager
 		# code...
 	}
 
-	function registerStudent($leveladmitted){
-
-	}
-	function editStudent($matricnumber){
-
-	}
-	function viewStudent($matricnumber){
-
-	}
-
+	
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
 	}
@@ -58,7 +49,7 @@ class ClassAlbumManager
 					$_SESSION ['profession'] = $row ['profession'];
 					$_SESSION ['role'] = $row ['specialization'];
 					$_SESSION['username'] = $row['username'];
-					return 'success:' . $row ['profession'];
+					return 'success:' . $row ['staffID'];
 					
 				}
 			} else {
@@ -70,9 +61,39 @@ class ClassAlbumManager
 		}
 
 	}
+	
+}
+
+
+class StudentManager {
 	function doStudentLogin($username,$password){
 
 	}
+
+	function registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
+		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport){
+		if (trim ( $jambno ) == ""){
+			return "Please, enter your JAMB Registration Number.";
+		}
+		if($sessionadmitted=='0' || trim($sessionadmitted)==''|| is_null($sessionadmitted)){
+			return "Please, Select a valid Session.";
+
+		}
+
+		return "I will register student here. OK";
+
+	}
+
+
+	function editStudent($matricnumber){
+
+	}
+	function viewStudent($matricnumber){
+
+	}
+
+
+
 }
 
 ?>

@@ -14,15 +14,34 @@ if(isset($_POST['stafflogin'])){
 }
 
 ?>
-
+<script type="text/javascript">
+function start(){
+	$('span#output').html(' Possible Authentication error. Try again!')
+}
+function finished(s){
+	if(s.indexOf("success")!=-1){
+		s1=s.split(":");
+		if(s1[0]=="success" && s1[1].toLowerCase()=="dvcAdmin"){//only dvcAdmin can set university credentials
+		$('span#output').html('<img src="images/loading.gif"> Preparing for first time use...');
+		//Boxy.load('/highacademia/configure.php',{title:'Configure your Institution',afterHide:function(){location.href='home.php';}});
+		}else{
+			location.href='staffhome.php';
+		}
+	}else {
+		s1=s.split(":");
+	if(s1[0]=="error"){$('span#output').html('<div class="warning-bar">'+s1[1]+'</div>');}
+	}	
+}
+</script>
 		<div id="register">
 			<fieldset>
 
 			<center><h3>Staff/Student Login</h3></center>
 			<div id="stalogin">
 				<center><h3>Staff Login</h3></center>
+				<span id="output" style="">&nbsp;</span>
 				<!-- <form id="form1" name="form1" method="post" action="index.php" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"> -->
-				<FORM action="index.php" method="post">
+				<FORM action="index.php" method="post" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
 				<table>
 					
 					<tr>

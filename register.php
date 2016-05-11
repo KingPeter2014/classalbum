@@ -1,4 +1,21 @@
-<?php include "inc/header.php" ?>
+<?php include "inc/header.php";
+
+if(isset($_POST['register'])){
+	include('classfile.php');
+	$student = new StudentManager;
+	
+	//,$matricnumber,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
+		//$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport;
+	$jambno=$_POST['jambno'];$entrylevel=$_POST['entrylevel'];$matricnumber=$_POST['matricno'];$sessionadmitted==$_POST['sessionadmin'];
+	
+	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
+		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
+	echo $ret;exit;
+}
+
+
+
+?>
 
 		<div id="register">
 			<fieldset>
@@ -18,7 +35,7 @@
 														</select></td>
 					</tr>
 					<tr>
-						<td>Session Admitted</td><td><select name="session"><option value="0">--Select--</option>
+						<td>Session Admitted</td><td><select name="sessionadmin"><option value="0">--Select--</option>
 																<option value="2015/2016">2015/2016</option>
 																<option value="2016/2017">2016/2017</option>
 																
