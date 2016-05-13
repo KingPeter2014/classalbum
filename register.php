@@ -9,9 +9,15 @@ if(isset($_POST['register'])){
 	$faculty=$_POST['school'];$dept=$_POST['department'];$opt=$_POST['specialisation'];$title=$_POST['title'];$sname=$_POST['surname'];
 	$fname=$_POST['firstname'];$mname=$_POST['middlename'];$dob = $_POST['dob'];$sex = $_POST['sex'];$mstatus=$_POST['maritalstatus'];
 	$saddress=$_POST['schooladdress'];$haddress=$_POST['homeaddress'];$corigin=$_POST['country'];$soorigin=$_POST['state'];$lga=$_POST['lga'];
-	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian - $_POST['parentguardian'];$nok = $_POST['nextofkin'];
+	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian =$_POST['parentguardian'];$nok = $_POST['nextofkin'];
 	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
-	
+	echo $pguardian;
+	//PROCESS PASSPORT FILE
+	$target_dir = "studentpp/";
+	$target_file = $target_dir . basename($_FILES["passport"]["name"]);
+	echo " Target File:".$target_file."<br>";
+	echo $passport."<br>";
+
 	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE AND PASS THE PARAMETERS RETRIEVED TO THE FUNCTION
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
@@ -24,7 +30,7 @@ if(isset($_POST['register'])){
 
 		<div id="register">
 			<fieldset>
-				<FORM action="register.php" method="post">
+				<FORM action="register.php" method="post" enctype="multipart/form-data">
 			<center><h3>Departmental Registration</h3></center>
 			<div id="leftdata">
 				<table>

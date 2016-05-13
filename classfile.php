@@ -72,6 +72,8 @@ class StudentManager {
 
 	function registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport){
+		
+		//VALIDATION OF COMPULSORY INPUT FIELDS
 		if (trim ( $jambno ) == ""){
 			return "Please, enter your JAMB Registration Number.";
 		}
@@ -106,6 +108,37 @@ class StudentManager {
 		if (strlen($haddress) < 10){
 			return "Home Address is too short and probably incomplete.";
 		}
+		if (trim ( $corigin) == "0"){
+			return "Please, Select a valid country of origin.";
+		}
+		if (trim ( $soorigin) == "0"){
+			return "Please, Select a valid State of origin.";
+		}
+		if (trim ($phone) == ""){
+			return "Please, enter a valid Phone Number.";
+		}
+		if (trim ( $email) == ""){
+			return "Please, enter a valid Email Address.";
+		}
+		if (trim ( $mofstudy) == "0"){
+			return "Please, Select a valid Mode of Study.";
+		}
+		if (trim ( $pguardian) == ""){
+			return "Please, enter full name of your Parent/Guardian.";
+		}
+		if (trim ( $nok) == ""){
+			return "Please, enter full name of your Next of Kin.";
+		}
+		if (trim ( $nokphone) == ""){
+			return "Please, enter Phone Number of your Next of Kin.";
+		}
+		if (trim ( $passport) == ""){
+			return "Please, upload a passport photograph.";
+		}
+		//PROCESSING THE PASSPORT FILE
+		$target_dir = "studentpp/";
+		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
 		return "I will register ".$sname. " Now.";
 
 	}
