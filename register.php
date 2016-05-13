@@ -4,12 +4,15 @@ if(isset($_POST['register'])){
 	include('classfile.php');
 	$student = new StudentManager;
 	
-	//$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
-		//$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport;
+	//RETRIEVE DATA TO BE USED FOR STUDENT REGISTRATION THROUGH POST
 	$jambno=$_POST['jambno'];$entrylevel=$_POST['entrylevel'];$matricnumber=$_POST['matricno'];$sessionadmitted=$_POST['sessionadmitted'];
-	$faculty=$_POST['school'];$dept=$_POST['department'];$opt=$_POST['specialisation'];
+	$faculty=$_POST['school'];$dept=$_POST['department'];$opt=$_POST['specialisation'];$title=$_POST['title'];$sname=$_POST['surname'];
+	$fname=$_POST['firstname'];$mname=$_POST['middlename'];$dob = $_POST['dob'];$sex = $_POST['sex'];$mstatus=$_POST['maritalstatus'];
+	$saddress=$_POST['schooladdress'];$haddress=$_POST['homeaddress'];$corigin=$_POST['country'];$soorigin=$_POST['state'];$lga=$_POST['lga'];
+	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian - $_POST['parentguardian'];$nok = $_POST['nextofkin'];
+	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
 	
-	
+	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE AND PASS THE PARAMETERS RETRIEVED TO THE FUNCTION
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
 	echo $ret;exit;
@@ -109,7 +112,7 @@ if(isset($_POST['register'])){
 																<option value="widow(er)">Widow(er)</option>
 																<option value="Celibate">Celibate</option>
 																
-														</select></td>
+														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>School Address</td><td><textarea name="schooladdress" rows="4"></textarea></td>
@@ -170,7 +173,7 @@ if(isset($_POST['register'])){
 								<td>Phone Number of Next of Kin</td><td><input type="text" name="phoneofkin" placeholder="Phone Number"></td>
 							</tr>
 							<tr>
-								<td>Passport Upload</td><td><input type="file" name="pasport" placeholder="Passport size Photograph"></td>
+								<td>Passport Upload</td><td><input type="file" name="passport" placeholder="Passport size Photograph"></td>
 							</tr>
 							<tr><td><input type="submit" name="register" value="Register"></td><td><input type="Reset" value="Cancel"></td>
 							</tr>

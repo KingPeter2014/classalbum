@@ -82,8 +82,31 @@ class StudentManager {
 		if (trim ( $faculty ) == ""){
 			return "Please, Select a School/Faculty.";
 		}
-
-		return "I will register student here. OK".$faculty.$dept.$opt;
+		if (trim ( $sname ) == ""){
+			return "Please, Enter your Surname or Family name.";
+		}
+		if (trim ( $fname ) == ""){
+			return "Please, Enter your First name or Given name.";
+		}
+		if (trim ( $dob ) == ""){
+			return "Please, Enter your Date of Birth.";
+		}
+		if($sex=="0"){
+			return "Please, Select a valid Gender.";
+		}
+		if($mstatus=="0"){
+			return "Please, Select a valid Marital Status.";
+		}
+		if (trim ( $saddress ) == ""){
+			return "Please, Enter your address in school or Term time address.";
+		}
+		if (trim ( $haddress ) == ""){
+			return "Please, Enter your Home Address.";
+		}
+		if (strlen($haddress) < 10){
+			return "Home Address is too short and probably incomplete.";
+		}
+		return "I will register ".$sname. " Now.";
 
 	}
 
