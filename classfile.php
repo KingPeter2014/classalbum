@@ -137,7 +137,7 @@ class StudentManager {
 		}
 		//PROCESSING THE PASSPORT FILE
 		$target_dir = "studentpp/";
-		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+		$target_file = $target_dir . $_FILES["passport"]["name"];
 
 		return "I will register ".$sname. " Now.";
 

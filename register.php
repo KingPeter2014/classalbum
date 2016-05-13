@@ -11,20 +11,79 @@ if(isset($_POST['register'])){
 	$saddress=$_POST['schooladdress'];$haddress=$_POST['homeaddress'];$corigin=$_POST['country'];$soorigin=$_POST['state'];$lga=$_POST['lga'];
 	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian =$_POST['parentguardian'];$nok = $_POST['nextofkin'];
 	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
-	echo $pguardian;
+	
 	//PROCESS PASSPORT FILE
 	$target_dir = "studentpp/";
 	$target_file = $target_dir . basename($_FILES["passport"]["name"]);
-	echo " Target File:".$target_file."<br>";
-	echo $passport."<br>";
+	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
+	//VERIFY THAT FILE IS AN IMAGE
+	$check = getimagesize($_FILES["passport"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        
+    } else {
+        die ("Passport File is not an image.");
+       
+    }
+
+    // Check if file already exists
+	if (file_exists($target_file)) {
+    	die("Sorry, file already exists.");
+	}
+	// Check file size
+	if ($_FILES["passport"]["size"] > 10000000) {
+    	die("Sorry, your passport file is too large.");
+    	$uploadOk = 0;
+	}
+	//Finally try to upload the file
+	if (move_uploaded_file($_FILES["passport"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["passport"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your passport.";
+    }
+    //To be passed to function and save to database
+	$passport=$target_file;
+	echo "Target FILE:".$target_file."<br>".$imageFileType;
+	//echo phpinfo();
+try {
+    
+    // Undefined | Multiple Files | $_FILES Corruption Attack
+    // If this request falls under any of them, treat it invalid.
+    if (
+        !isset($_FILES['passport']['error']) ||
+        is_array($_FILES['passport']['error'])
+    ) {
+        throw new RuntimeException('Invalid parameters.');
+    }
+
+     // Check $_FILES['passport']['error'] value.
+    switch ($_FILES['passport']['error']) {
+        case UPLOAD_ERR_OK:
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new RuntimeException('No file sent.');
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            throw new RuntimeException('Exceeded filesize limit.');
+        default:
+            throw new RuntimeException('Unknown errors.');
+    }
+
+} catch (RuntimeException $e) {
+
+    echo $e->getMessage()."<br>";
+
+}
+
+        
 	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE AND PASS THE PARAMETERS RETRIEVED TO THE FUNCTION
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
 	echo $ret;exit;
+
+
 }
-
-
 
 ?>
 
