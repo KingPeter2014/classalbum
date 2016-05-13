@@ -13,7 +13,40 @@ if(isset($_POST['register'])){
 	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
 	
 	//PROCESS PASSPORT FILE
+
+	//Handle $_FILE corruption attacks first
+	try {
+    
+    // Undefined | Multiple Files | $_FILES Corruption Attack
+    // If this request falls under any of them, treat it invalid.
+    if (
+        !isset($_FILES['passport']['error']) ||
+        is_array($_FILES['passport']['error'])
+    ) {
+        throw new RuntimeException('Invalid parameters.');
+    }
+
+     // Check $_FILES['passport']['error'] value.
+    switch ($_FILES['passport']['error']) {
+        case UPLOAD_ERR_OK:
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new RuntimeException('No file sent.');
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            throw new RuntimeException('Exceeded filesize limit.');
+        default:
+            throw new RuntimeException('Unknown errors.');
+    }
+
+} catch (RuntimeException $e) {
+
+    echo $e->getMessage()."<br>";
+
+}
+	//Directory to upload files
 	$target_dir = "studentpp/";
+	
 	$target_file = $target_dir . basename($_FILES["passport"]["name"]);
 	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
@@ -46,35 +79,7 @@ if(isset($_POST['register'])){
 	$passport=$target_file;
 	echo "Target FILE:".$target_file."<br>".$imageFileType;
 	//echo phpinfo();
-try {
-    
-    // Undefined | Multiple Files | $_FILES Corruption Attack
-    // If this request falls under any of them, treat it invalid.
-    if (
-        !isset($_FILES['passport']['error']) ||
-        is_array($_FILES['passport']['error'])
-    ) {
-        throw new RuntimeException('Invalid parameters.');
-    }
 
-     // Check $_FILES['passport']['error'] value.
-    switch ($_FILES['passport']['error']) {
-        case UPLOAD_ERR_OK:
-            break;
-        case UPLOAD_ERR_NO_FILE:
-            throw new RuntimeException('No file sent.');
-        case UPLOAD_ERR_INI_SIZE:
-        case UPLOAD_ERR_FORM_SIZE:
-            throw new RuntimeException('Exceeded filesize limit.');
-        default:
-            throw new RuntimeException('Unknown errors.');
-    }
-
-} catch (RuntimeException $e) {
-
-    echo $e->getMessage()."<br>";
-
-}
 
         
 	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE AND PASS THE PARAMETERS RETRIEVED TO THE FUNCTION
