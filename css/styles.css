@@ -28,7 +28,7 @@ body{
 	
 }
 select,textarea,input[type="text"],input[type="email"],input[type="submit"],input[type="reset"],input[type="password"] {
-	width: 100%;
+	width: 95%;
 }
 table {
 	width:100%;
