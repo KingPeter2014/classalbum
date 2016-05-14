@@ -135,9 +135,20 @@ class StudentManager {
 		if (trim ( $passport) == ""){
 			return "Please, upload a passport photograph.";
 		}
-		//PROCESSING THE PASSPORT FILE
-		$target_dir = "studentpp/";
-		$target_file = $target_dir . $_FILES["passport"]["name"];
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+			$sql = "INSERT INTO masterlist(jambno,matricno,entrylevel,sessionadmitted,faculty,department,specialisation,title,surname,firstname,middlename,
+				dob,sex,maritalstatus,schooladdress,homeaddress,countryorigin,stateorigin,lga,phone,email,modeofstudy,parentguardian,nextofkin,parentphone,
+				nextofkinphone,passportfile) VALUES ('$jambno','$matricnumber',$entrylevel,'$sessionadmitted','$faculty','$dept','$opt','$title','$sname','$fname','$mname','$dob','$sex','$mstatus','$saddress',
+				'$haddress','$corigin','$soorigin','$lga','$phone','$email','$mofstudy','$pguardian','$nok','$parentphone','$nokphone','$passport')";
+		//return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if($chk){
+			return $sname.' has been successfully registered in '.$dept. '<br><img src="'.$passport.'"/>';
+		}
+		else{
+			return $sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
+		}
 
 		return "I will register ".$sname. " Now.";
 

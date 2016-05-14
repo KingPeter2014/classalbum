@@ -53,7 +53,7 @@ if(isset($_POST['register'])){
 	//VERIFY THAT FILE IS AN IMAGE
 	$check = getimagesize($_FILES["passport"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+        //echo "File is an image - " . $check["mime"] . ".";
         
     } else {
         die ("Passport File chosen is not an image.");
@@ -62,7 +62,7 @@ if(isset($_POST['register'])){
 
     // Check if file already exists
 	if (file_exists($target_file)) {
-    	die("Sorry, file already exists.");
+    	die("Sorry, passport file already exists.");
 	}
 	// Check file size
 	if ($_FILES["passport"]["size"] > 10000000) {
@@ -75,9 +75,10 @@ if(isset($_POST['register'])){
     } else {
         echo "Sorry, there was an error uploading your passport.";
     }
-    //To be passed to function and save to database
+    //To be passed to function and saved to database
 	$passport=$target_file;
-	echo "Target FILE:".$target_file."<br>".$imageFileType;
+
+	//echo "Target FILE:".$target_file."<br>".$imageFileType;
 	//echo phpinfo();
 
 
