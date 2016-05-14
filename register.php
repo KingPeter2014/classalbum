@@ -31,7 +31,7 @@ if(isset($_POST['register'])){
         case UPLOAD_ERR_OK:
             break;
         case UPLOAD_ERR_NO_FILE:
-            throw new RuntimeException('No file sent.');
+            throw new RuntimeException('No Passport file attached.');
         case UPLOAD_ERR_INI_SIZE:
         case UPLOAD_ERR_FORM_SIZE:
             throw new RuntimeException('Exceeded filesize limit.');
@@ -41,12 +41,12 @@ if(isset($_POST['register'])){
 
 } catch (RuntimeException $e) {
 
-    echo $e->getMessage()."<br>";
+    die ($e->getMessage()."<br>");
 
 }
 	//Directory to upload files
 	$target_dir = "studentpp/";
-	
+
 	$target_file = $target_dir . basename($_FILES["passport"]["name"]);
 	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
@@ -56,7 +56,7 @@ if(isset($_POST['register'])){
         echo "File is an image - " . $check["mime"] . ".";
         
     } else {
-        die ("Passport File is not an image.");
+        die ("Passport File chosen is not an image.");
        
     }
 
