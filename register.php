@@ -33,6 +33,45 @@ if(isset($_POST['register'])){
 		if (trim ( $dob ) == ""){
 			die("Please, Enter your Date of Birth.");
 		}
+		if($sex=="0"){
+			die("Please, Select a valid Gender.");
+		}
+		if($mstatus=="0"){
+			die("Please, Select a valid Marital Status.");
+		}
+		if (trim ( $saddress ) == ""){
+			die( "Please, Enter your address in school or Term time address.");
+		}
+		if (trim ( $haddress ) == ""){
+			die("Please, Enter your Home Address.");
+		}
+		if (strlen($haddress) < 10){
+			die("Home Address is too short and probably incomplete.");
+		}
+		if (trim ( $corigin) == "0"){
+			die("Please, Select a valid country of origin.");
+		}
+		if (trim ( $soorigin) == "0"){
+			die("Please, Select a valid State of origin.");
+		}
+		if (trim ($phone) == ""){
+			die("Please, enter a valid Phone Number.");
+		}
+		if (trim ( $email) == ""){
+			die("Please, enter a valid Email Address.");
+		}
+		if (trim ( $mofstudy) == "0"){
+			die("Please, Select a valid Mode of Study.");
+		}
+		if (trim ( $pguardian) == ""){
+			die("Please, enter full name of your Parent/Guardian.");
+		}
+		if (trim ( $nok) == ""){
+			die("Please, enter full name of your Next of Kin.");
+		}
+		if (trim ( $nokphone) == ""){
+			die("Please, enter Phone Number of your Next of Kin.");
+		}
 
 	//PROCESS PASSPORT FILE
 

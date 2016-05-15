@@ -97,48 +97,6 @@ class StudentManager {
 	function registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport){
 		
-		if($sex=="0"){
-			return "Please, Select a valid Gender.";
-		}
-		if($mstatus=="0"){
-			return "Please, Select a valid Marital Status.";
-		}
-		if (trim ( $saddress ) == ""){
-			return "Please, Enter your address in school or Term time address.";
-		}
-		if (trim ( $haddress ) == ""){
-			return "Please, Enter your Home Address.";
-		}
-		if (strlen($haddress) < 10){
-			return "Home Address is too short and probably incomplete.";
-		}
-		if (trim ( $corigin) == "0"){
-			return "Please, Select a valid country of origin.";
-		}
-		if (trim ( $soorigin) == "0"){
-			return "Please, Select a valid State of origin.";
-		}
-		if (trim ($phone) == ""){
-			return "Please, enter a valid Phone Number.";
-		}
-		if (trim ( $email) == ""){
-			return "Please, enter a valid Email Address.";
-		}
-		if (trim ( $mofstudy) == "0"){
-			return "Please, Select a valid Mode of Study.";
-		}
-		if (trim ( $pguardian) == ""){
-			return "Please, enter full name of your Parent/Guardian.";
-		}
-		if (trim ( $nok) == ""){
-			return "Please, enter full name of your Next of Kin.";
-		}
-		if (trim ( $nokphone) == ""){
-			return "Please, enter Phone Number of your Next of Kin.";
-		}
-		if (trim ( $passport) == ""){
-			return "Please, upload a passport photograph.";
-		}
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
 			$sql = "INSERT INTO masterlist(jambno,matricno,entrylevel,sessionadmitted,faculty,department,specialisation,title,surname,firstname,middlename,
@@ -153,9 +111,6 @@ class StudentManager {
 		else{
 			return $sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
 		}
-
-		return "I will register ".$sname. " Now.";
-
 	}
 
 
@@ -173,7 +128,7 @@ class StudentManager {
 
 		$row_data = mysqli_fetch_assoc ( $chk );
 		do {
-			$ret.='<tr><td colspan="2"><img src="'.$row_data['passportfile'].'" alt="View Passport Photo" width="80%"/></td></tr>';
+			$ret.='<tr><td colspan="2"><img src="'.$row_data['passportfile'].'" alt="View Passport Photo"/></td></tr>';
 			$ret.='<tr><td width="20%"><strong>Surname:</strong></td><td>'.$row_data['surname'].'</td></tr>';
 			$ret.='<tr><td><strong>Other Names:</strong></td><td>'.$row_data['firstname'].'</td></tr>';
 			$ret.='<tr><td><strong>JAMB No.:</strong></td><td>'.$row_data['jambno'].'</td></tr>';
