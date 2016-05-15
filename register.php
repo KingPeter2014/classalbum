@@ -12,6 +12,28 @@ if(isset($_POST['register'])){
 	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian =$_POST['parentguardian'];$nok = $_POST['nextofkin'];
 	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
 	
+
+	//VALIDATION OF COMPULSORY INPUT FIELDS
+		if (trim ( $jambno ) == ""){
+			die("Please, enter your JAMB Registration Number.");
+		}
+		if($sessionadmitted=="0"){
+			die("Please, Select a valid Session.");
+
+		}
+		if (trim ( $faculty ) == ""){
+			die( "Please, Select a School/Faculty.");
+		}
+		if (trim ( $sname ) == ""){
+			die("Please, Enter your Surname or Family name.");
+		}
+		if (trim ( $fname ) == ""){
+			die("Please, Enter your First name or Given name.");
+		}
+		if (trim ( $dob ) == ""){
+			die("Please, Enter your Date of Birth.");
+		}
+
 	//PROCESS PASSPORT FILE
 
 	//Handle $_FILE corruption attacks first
@@ -79,11 +101,11 @@ if(isset($_POST['register'])){
 	$passport=$target_file;
 
 	//echo "Target FILE:".$target_file."<br>".$imageFileType;
-	//echo phpinfo();
+	
 
 
         
-	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE AND PASS THE PARAMETERS RETRIEVED TO THE FUNCTION
+	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE 
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
 	echo $ret;exit;
@@ -92,10 +114,36 @@ if(isset($_POST['register'])){
 }
 
 ?>
+<script type="text/javascript">
+
+	function start(){
+		$('span#output').html(' Processing...')
+	}
+	function finished(s){
+		$('span#output').html('<div class="warning-bar">'+s+'</div>');
+
+	}
+
+	function getLGAs(x){
+		var state= x.value;
+		
+		//document.write("I reached getLGAs from State:"+state);
+		$.ajax({
+			
+			url:"ajax.getLGAs.php?state_name="+state,
+			beforeSend: function(){$('#lga').html('Searching...');},
+			success: function(s){
+				$('#lga').html(s);
+			}
+		});
+	}
+//onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"
+</script>
 
 		<div id="register">
+			<span id="output" >&nbsp;</span>
 			<fieldset>
-				<FORM action="register.php" method="post" enctype="multipart/form-data">
+				<FORM action="register.php" method="post" enctype="multipart/form-data" >
 			<center><h3>Departmental Registration</h3></center>
 			<div id="leftdata">
 				<table>
@@ -205,14 +253,15 @@ if(isset($_POST['register'])){
 														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>State of Origin</td><td><select name="state"><option value="0">--Select--</option>
-																<option value="abia">Abia</option>
-																<option value="adamawa">Adamawa</option>
+								<td>State of Origin</td><td><select name="state" id="state" onChange="getLGAs(this)"><option value="0">--Select--</option>
+																<?php require_once 'classfile.php';
+																	echo ClassAlbumManager::getStates();
+																 ?>
 																<option value="foreigner">Foreigner</option>
 														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>L.G.A of Origin</td><td><select name="lga"><option value="0">--Select--</option>
+								<td>L.G.A of Origin</td><td><select name="lga" id="lga"><option value="0">--Select--</option>
 																
 																<option value="foreigner">Foreigner</option>
 														</select></td>

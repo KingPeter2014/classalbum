@@ -8,6 +8,10 @@
 			<div id="myprofile">
 				<center><a href="myprofile.php"> My Profile</a></center>
 			</div>
+			<div id="importbiodata" class="majoraction">
+				
+				<center><a href="importbiodata.php"> Import Students' Bio-Data</a></center>
+			</div>
 
 			<div id="editstudent" class="majoraction">
 				<center><a href="edit.php"> Edit Student</a></center>
@@ -37,11 +41,15 @@
 				
 				<center><a href="classlist.php"> Class List Printing</a></center>
 			</div>
+			<div id="classlist" class="majoraction">
+				
+				<center><a href="reports.php"> Searches and Reports</a></center>
+			</div>
 			
 			</fieldset>
 
 		</div><!-- End of mainmenu div -->
 		<div id="centralarea">Actions Executed here</div>
-		<div id="footer"> &copy Eze Peter U. (peter.eze@futo.edu.ng)</div>
+		<div id="footer"> &copy SEAS Team 2016. Contact: <a href="mailto:peter.eze@futo.edu.ng"> Team Leader</a></div>
 	</body>
 </html>
