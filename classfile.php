@@ -56,6 +56,26 @@ class ClassAlbumManager
 
 		return $ret;
 	}
+
+	function addStaff($spno,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$phone,$email,$role,$classadvised){
+		$password=MD5("Password1");
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "INSERT INTO staffusers(sp_no,password,faculty,department,specialty,title,surname,firstname,middlename,telephone,email,role,classadvised) 
+				VALUES ('$spno','$password','$faculty','$dept','$opt','$title','$sname','$fname','$mname','$phone','$email','$role','$classadvised')";
+		#return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if($chk){
+			return $sname.' has been successfully registered as a Staff in '.$dept;
+		}
+		else{
+			return $sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
+		}
+
+		
+		return $password;
+
+	}
 	
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		

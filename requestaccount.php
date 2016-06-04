@@ -8,7 +8,7 @@ if (!isset($_SESSION)){
 if(isset($_POST['create'])){
 
 	$spno = $_POST['spno'];$faculty=$_POST['school'];$dept=$_POST['department'];$opt=$_POST['specialisation'];$title=$_POST['title'];$sname=$_POST['surname'];
-	$fname=$_POST['firstname'];$mname=$_POST['middlename'];$phone=$_POST['telephone'];$email=$_POST['email'];$role=$_POST['role'];
+	$fname=$_POST['firstname'];$mname=$_POST['middlename'];$phone=$_POST['telephone'];$email=$_POST['email'];$role=$_POST['role'];$classadvised=$_POST['classadvised'];
 
 	if(trim($spno)=="")
 		die("Please, enter the SP. No of Staff");
@@ -26,6 +26,8 @@ if(isset($_POST['create'])){
 	echo "Default password for new staff user is " . $_POST['password']."<br>";
 
 	include('classfile.php');
+	$ret= ClassAlbumManager::addStaff($spno,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$phone,$email,$role,$classadvised);
+	echo $ret;
 
 	exit;
 
@@ -107,7 +109,9 @@ if(isset($_POST['create'])){
 														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
-						<td>Class Advised</td><td><select name="classadvised" id="classadvised"><option value="2016/2017">2016/2017 Entry</option>
+						<td>Class Advised</td><td><select name="classadvised" id="classadvised">
+														<option value="none">None</option>
+														<option value="2016/2017">2016/2017 Entry</option>
 																
 																
 														</select><font color="red">*</font></td>
