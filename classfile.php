@@ -35,6 +35,27 @@ class ClassAlbumManager
 		return $ret;
 
 	}
+	function getStudentSuggestions($searchterm){
+		$ret = '';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM masterlist WHERE surname LIKE '%$searchterm%' OR firstname LIKE '%$searchterm%' OR matricno LIKE '%$searchterm%' ORDER BY surname";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "<ul><li>No matching record found</li></ul>";
+
+		$ret.= '<ul>';
+		while($result = mysqli_fetch_assoc($chk)){
+
+			$ret.= '<li onClick="fillId(\''.addslashes($result['id']).'\');fill(\''.addslashes($result['surname']).'\');">'.$result['surname'].','.$result['firstname'].'('. $result['jambno'].','.$result['matricno'].')<tr><td colspan="2"><img src="'.$result['passportfile'].'" alt="View Passport Photo" width="75px" height="100px"/></td></tr></li>';
+		}
+		$ret.= '</ul>';
+
+
+
+
+		return $ret;
+	}
 	
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
@@ -117,11 +138,20 @@ class StudentManager {
 	function editStudent($matricnumber){
 
 	}
-	function viewStudent($matricno,$jambno){
+	function viewStudent($matricno,$jambno,$student_id){
 		$ret='<table width="100%" cellpadding="10">';
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
-		$sql = "SELECT * FROM masterlist WHERE jambno='$jambno' OR matricno='$matricno'";
+		if($jambno != "")
+			$sql = "SELECT * FROM masterlist WHERE jambno='$jambno'";
+		elseif ($student_id != "") {
+			$sql = "SELECT * FROM masterlist WHERE id=$student_id";
+		}
+		elseif ($matricno != "") {
+			$sql = "SELECT * FROM masterlist WHERE matricno='$matricno'";
+		}
+		else
+			$sql = "SELECT * FROM masterlist WHERE jambno='$jambno' OR matricno='$matricno' OR id='$student_id'";
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if(mysqli_num_rows($chk) <1)
 			return "No matching record found";

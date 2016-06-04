@@ -21,18 +21,26 @@ body{
 	float: right;
 	width:65%;
 }
+.centralise{
+	left:30%;
+}
 .majoraction {
 	margin: 0;
 	color: white;
 	height: 25%;
 	
 }
-select,textarea,input[type="text"],input[type="email"],input[type="submit"],input[type="reset"],input[type="password"] {
+select,textarea,input[type="text"],input[type="email"],input[type="submit"],input[type="reset"],input[type="password"],input[type="file"] {
 	width: 95%;
 }
 table {
 	width:100%;
 }
+.error {color: #A00; font-weight: 400; 
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAiElEQVR42r2RsQrDMAxEBRdl8SDcX8lQPGg1GBI6lvz/h7QyRRXV0qUULwfvwZ1tenw5PxToRPWMC52eA9+WDnlh3HFQ/xBQl86NFYJqeGflkiogrOvVlIFhqURFVho3x1moGAa3deMs+LS30CAhBN5nNxeT5hbJ1zwmji2k+aF6NENIPf/hs54f0sZFUVAMigAAAABJRU5ErkJggg==") no-repeat scroll 0% 50%;
+    
+}
+
 fieldset{border: 0px;}
 
 .active > a:first-child {

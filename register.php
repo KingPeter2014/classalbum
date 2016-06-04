@@ -1,8 +1,8 @@
-<?php include "inc/header.php";
+<?php 
 
 if(isset($_POST['register'])){
 	include('classfile.php');
-	$student = new StudentManager;
+	
 	
 	//RETRIEVE DATA TO BE USED FOR STUDENT REGISTRATION THROUGH POST
 	$jambno=$_POST['jambno'];$entrylevel=$_POST['entrylevel'];$matricnumber=$_POST['matricno'];$sessionadmitted=$_POST['sessionadmitted'];
@@ -15,7 +15,7 @@ if(isset($_POST['register'])){
 
 	//VALIDATION OF COMPULSORY INPUT FIELDS
 		if (trim ( $jambno ) == ""){
-			die("Please, enter your JAMB Registration Number.");
+			die("Error:Please, enter your JAMB Registration Number.");
 		}
 		if($sessionadmitted=="0"){
 			die("Please, Select a valid Session.");
@@ -134,7 +134,7 @@ if(isset($_POST['register'])){
 	if (move_uploaded_file($_FILES["passport"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["passport"]["name"]). " has been uploaded.";
     } else {
-        echo "Sorry, there was an error uploading your passport.";
+        die("Sorry, there was an error uploading your passport.");
     }
     //To be passed to function and saved to database
 	$passport=$target_file;
@@ -145,6 +145,7 @@ if(isset($_POST['register'])){
 
         
 	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE 
+	$student = new StudentManager;
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
 	echo $ret;exit;
@@ -152,6 +153,7 @@ if(isset($_POST['register'])){
 
 }
 
+require_once "inc/header.php";
 ?>
 <script type="text/javascript">
 
@@ -176,15 +178,16 @@ if(isset($_POST['register'])){
 			}
 		});
 	}
-//onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"
+//onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})";onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"
 </script>
 
 		<div id="register">
-			<span id="output" >&nbsp;</span>
+			
 			<fieldset>
 				<FORM action="register.php" method="post" enctype="multipart/form-data" >
 			<center><h3>Departmental Registration</h3></center>
 			<div id="leftdata">
+				<span id="output" class="error">&nbsp;</span>
 				<table>
 					<tr>
 						<td>Entry Level</td><td><select name="entrylevel"><option value="1">100</option>
