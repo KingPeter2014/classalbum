@@ -53,6 +53,10 @@
 				
 				<center><a href="reports.php"> Searches and Reports</a></center>
 			</div>
+			<div id="classlist" class="majoraction">
+				
+				<center><a href="logout.php"> Log out</a></center>
+			</div>
 			
 			</fieldset>
 
