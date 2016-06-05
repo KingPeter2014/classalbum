@@ -1,4 +1,12 @@
-<?php include "inc/header.php" ?>
+<?php include "inc/header.php";
+	if (! isset($_SESSION )) {
+			session_start ();
+	}
+	if(!isset($_SESSION['username']))
+		header("Location:index.php");
+
+
+ ?>
 
 			<center><h3>Staff Home Page</h3></center>
 		<div id="mainmenu">
