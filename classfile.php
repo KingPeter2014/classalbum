@@ -76,7 +76,24 @@ class ClassAlbumManager
 		return $password;
 
 	}
-	
+	function changeStaffPassword($staff,$old,$new){
+		$ret = ClassAlbumManager::isCorrectPassword($staff,$old);
+		if($ret=='true'){
+			require "inc/dbconnection.php";
+			mysqli_select_db ($dbconnection,$database_dbconnection );
+			$sql= "UPDATE staffusers SET password='".MD5($new)."', status='enabled' WHERE sp_no='$staff'";
+			#return $sql;
+			$chk = mysqli_query ( $dbconnection,$sql);
+			if($chk){
+				return $staff.', you have successfully changed your password. Click <a href="index.php"> Here</a> to login ';
+			}
+			else{
+				return $staff.", your password change was NOT successful . Try again or contact Admin<br>".mysqli_error($dbconnection);
+		}
+		}
+		else
+			return "Please your old password did not match";
+	}
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
 	}
@@ -93,7 +110,26 @@ class ClassAlbumManager
 	function generateClassList($sessionLevelOneAdmitted){
 
 	}
-	function doStaffLogin($username,$password){
+
+	function isCorrectPassword($username,$password){
+		require "inc/dbconnection.php";
+		if (trim ( $username ) != "" && trim ( $password ) != "") {
+			mysqli_select_db ($dbconnection,$database_dbconnection );
+			$sql = "SELECT * FROM staffusers WHERE (sp_no = '" . $username . "' OR email = '" . $username . "' ) AND password = MD5('" . $password . "')";
+			$chk = mysqli_query ( $dbconnection,$sql);
+			$row = mysqli_fetch_assoc ( $chk );
+			
+			if (mysqli_num_rows ( $chk ) >= 1) {
+				return 'true';
+			} 
+			return 'false';
+		}
+		else{
+			return 'false';
+		}
+
+	}
+	function doStaffLogin2($username,$password){
 		require "inc/dbconnection.php";
 		
 		if (trim ( $username ) != "" && trim ( $password ) != "") {
@@ -126,8 +162,48 @@ class ClassAlbumManager
 		}
 
 	}
+
+	function doStaffLogin($username,$password){
+		require "inc/dbconnection.php";
+		
+		if (trim ( $username ) != "" && trim ( $password ) != "") {
+			mysqli_select_db ($dbconnection,$database_dbconnection );
+			$sql = "SELECT * FROM staffusers WHERE (sp_no = '" . $username . "' OR email = '" . $username . "' ) AND password = MD5('" . $password . "')";
+			$chk = mysqli_query ( $dbconnection,$sql);
+			$row = mysqli_fetch_assoc ( $chk );
+			
+			if (mysqli_num_rows ( $chk ) >= 1) {
+				if (! isset ( $_SESSION )) {
+					session_start ();
+				}
+				$pword= MD5("Password1");
+				//return $pword;
+				if($pword==$row['password'])
+						header("Location:staffchangepassword.php?staff=".$row["sp_no"]);
+
+				if ($row ['status'] == 'disabled') {
+					return 'error:Your account is disabled';
+				} else {
+					$_SESSION ['staffID'] = $row ['sp_no'];
+					$_SESSION ['role'] = $row ['role'];
+					header("Location:staffhome.php?staff=".$row["sp_no"]);
+					return 'success:' . $row ['surname'];
+					
+					
+					
+				}
+			} else {
+				return 'error:Invalid Login details';
+			}
+
+			} else {
+			return 'error:Enter username and password';
+		}
+
+	}
 	
 }
+
 
 
 class StudentManager {

@@ -41,7 +41,7 @@ function finished(s){
 				<center><h3>Staff Login</h3></center>
 				<span id="output" style="">&nbsp;</span>
 				<!-- <form id="form1" name="form1" method="post" action="index.php" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"> -->
-				<FORM action="index.php" method="post" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
+				<FORM action="index.php" method="post" >
 				<table>
 					
 					<tr>
