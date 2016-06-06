@@ -2,7 +2,7 @@
 # FileName="Connection_php_mysql.htm"
 # Type="MYSQL"
 # HTTP="true"
-$hostname_dbconnection = "localhost";
+$hostname_dbconnection = "localhost";//http://sql.futo.edu.ng
 $database_dbconnection = "classalbum";
 $username_dbconnection = "root";
 $password_dbconnection = "mysql";

@@ -184,7 +184,7 @@ require_once "inc/header.php";
 		<div id="register">
 			
 			<fieldset>
-				<FORM action="register.php" method="post" enctype="multipart/form-data" >
+				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" >
 			<center><h3>Departmental Registration</h3></center>
 			<div id="leftdata">
 				<span id="output" class="error">&nbsp;</span>

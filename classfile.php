@@ -94,6 +94,21 @@ class ClassAlbumManager
 		else
 			return "Please your old password did not match";
 	}
+	function createNewDepartment($deptname,$deptcode,$deptype)
+	{
+		require "inc/dbconnection.php";
+			mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "INSERT INTO departments ( deptname,acronym,dept_type,faculty ) VALUES ('" . ucwords ( $deptname ) . "','" . $deptcode."','" . $deptype. "',"."2)";
+			$chk = mysqli_query ( $dbconnection,$sql);
+            if (! $chk) {
+				$ret = 'error:Database Error->' . mysql_error ();
+			} else {
+			
+				$ret = 'success:';
+			}
+			return $ret;
+	
+	}
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
 	}
