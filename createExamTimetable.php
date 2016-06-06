@@ -1,22 +1,17 @@
 <?php include "inc/header.php";
 
 if(isset($_POST['createexam'])){
-	$examdate=$_POST['examdate'];
-	$starttime = $_POST['starttime'];$endtime=$_POST['endtime'];
-	echo "Exam Date:". $examdate. " ".$starttime."-".$endtime;
 
-	}
+}
 
-
- ?>
-
+?>
 
 <div class="centralarea">
-Create exam or link a existing exam timetable. This will enable students check into a particular examination being written at the moment.
+ 
 	<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post" enctype="multipart/form-data">
-			<center><h3>Create Exam</h3></center>
+			<center><h3>Create Exam Timetable</h3></center>
 
-	<fieldset><legend>Create New Student Exam</legend>
+	<fieldset>
 	<table>
 		<tr>
 			<td>Course Code</td><td><select name="coursecode"><option value="EEE202">EEE202</option>
@@ -46,8 +41,26 @@ Create exam or link a existing exam timetable. This will enable students check i
 			</td>
 		</tr>
 		<tr>
-			<td>Students for this Course:</td><td><input type="file" name="coursereg" placeholder="Select file"><font color="red">*</font></td>
+			<td>Venue</td><td><select name="venue"><option value="0">--Select--</option>
+																<option value="1">EEE Lecture Hall1</option>
+																<option value="2">EEE Studio</option>
+																
+														</select><font color="red">*</font>
+			</td>
 		</tr>
+		<tr>
+			<td>Invigilating Group</td><td><select name="invigilators"><option value="0">--Select--</option>
+																<option value="A">A</option>
+																<option value="B">B</option>
+																<option value="C">C</option>
+																<option value="D">D</option>
+																<option value="E">E</option>
+																<option value="F">F</option>
+																
+														</select>
+			</td>
+		</tr>
+		
 		<tr>
 			<td>Exam Date:</td><td><input type="text" name="examdate" id="datetimepicker4" placeholder="Exam Date"><font color="red">*</font></td>
 		</tr>

@@ -55,6 +55,14 @@
 			</div>
 			<div id="classlist" class="majoraction">
 				
+				<center><a href="createExamTimetable.php"> Create Exam Timetable</a></center>
+			</div>
+			<div id="classlist" class="majoraction">
+				
+				<center><a href="editExamTimetable.php"> Edit Exam Timetable</a></center>
+			</div>
+			<div id="classlist" class="majoraction">
+				
 				<center><a href="logout.php"> Log out</a></center>
 			</div>
 			
