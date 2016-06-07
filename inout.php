@@ -1,9 +1,25 @@
 <?php include "inc/header.php";
 	if($_POST['activate']){
+		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
+		if (trim ( $coursecode ) == "0")
+	 	{
+			die('<span class="error">Please, select a valid course code</span>');
+		}
+		include('classfile.php');
+		$ret=StudentManager::activateExam($coursecode);
+		echo $ret;
 
 	}
 
 	if($_POST['deactivate']){
+		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
+		if (trim ( $coursecode ) == "0")
+	 	{
+			die('<span class="error">Please, select a valid course code</span>');
+		}
+		include('classfile.php');
+		$ret=StudentManager::deActivateExam($coursecode);
+		echo $ret;
 		
 	}
 
@@ -75,8 +91,7 @@
 
 	</script>
 <div class="centralarea">
-Student will enter REG NO or JAMB NO, select an active exam in order to check into or out of the examination.
-
+<hr>
 <div id="stalogin">
 				<center><h3>Activate/Deactivate Exam</h3></center>
 				<span id="output" style="">&nbsp;</span>
@@ -85,24 +100,16 @@ Student will enter REG NO or JAMB NO, select an active exam in order to check in
 				<table>
 					
 					<tr>
-						<td>Course Code</td><td><select name="coursecode"><option value="EEE202">EEE202</option>
-																<option value="2">ECE316</option>
-																<option value="3">ENG226</option>
-																<option value="4">ECE502</option>
-																<option value="5">COE318</option>
-																<option value="7">PSE312</option>
+						<td>Course Code</td><td><select name="coursecode">
+														<?php require_once 'classfile.php';
+																	echo StudentManager::getAllCourses();
+																 ?>
+																
 																
 														</select><font color="red">*</font>
 						</td>
 					</tr>
-					<tr>
-						<td>Session of Exam</td><td><select name="sessionofexam"><option value="0">--Select--</option>
-																<option value="2015_2016">2015/2016</option>
-																<option value="2016_2017">2016/2017</option>
-																
-														</select><font color="red">*</font>
-						</td>
-					</tr>
+					
 		<tr><td></td><td><input type="submit" name="activate" value="Activate"><input type="submit" name="deactivate" value="Deactivate"></td></tr>
 					
 
@@ -150,6 +157,6 @@ Student will enter REG NO or JAMB NO, select an active exam in order to check in
 				<div id="suggestions" style="display: none;"> <div id="suggestionsList"> &nbsp; </div>
 			</div>
 </div>
-
+<div id="footer"> <hr> <center>&copy SEAS Team 2016. (contact: peter.eze@futo.edu.ng)</center></div>
 </body>
 </html>

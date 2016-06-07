@@ -261,6 +261,50 @@ class StudentManager {
 		return $ret;
 
 	}
+	function getAllCourses(){
+		$ret='';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql="SELECT * FROM courses  ORDER BY coursecode";
+		$result=mysqli_query($dbconnection,$sql);
+		while ( $row= mysqli_fetch_assoc($result)) {
+			$ret.= '<option value="'.$row['coursecode'].'">'.$row['coursecode'].'</option>';
+		}
+		if($ret==""){
+			$ret='<option value="0">No Examinable Courses found</option>';
+		}
+
+		return $ret;
+
+	}
+	function activateExam($coursecode){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql= "UPDATE courses SET examstatus='active' WHERE coursecode='$coursecode'";
+			#return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if($chk){
+			return '<span class="success">'.$coursecode.' was SUCCESSFULLY ACTIVATED as current exam </span>';
+		}
+		else{
+			return $studentreg." NOT successfully activated ".mysqli_error($dbconnection);
+		}
+
+	}
+	function deActivateExam($coursecode){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql= "UPDATE courses SET examstatus='inactive' WHERE coursecode='$coursecode'";
+			#return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if($chk){
+			return '<span class="success">'.$coursecode.' was SUCCESSFULLY DEACTIVATED and students will no longer sign into its exam </span>';
+		}
+		else{
+			return $studentreg.' <span class="error">NOT successfully Deactivated.</span> '.mysqli_error($dbconnection);
+		}
+
+	}
 
 
 	function editStudent($matricnumber){
