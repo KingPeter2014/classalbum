@@ -98,7 +98,7 @@ class ClassAlbumManager
 	function createNewDepartment($deptname,$deptcode,$deptype)
 	{
 		require "inc/dbconnection.php";
-			mysqli_select_db ($dbconnection,$database_dbconnection );
+		mysqli_select_db ($dbconnection,$database_dbconnection );
 		$sql = "INSERT INTO departments ( deptname,acronym,dept_type,faculty ) VALUES ('" . ucwords ( $deptname ) . "','" . $deptcode."','" . $deptype. "',"."2)";
 			$chk = mysqli_query ( $dbconnection,$sql);
             if (! $chk) {
@@ -136,6 +136,30 @@ class ClassAlbumManager
 
 	}
 	function generateClassAlbum($sessionLevelOneAdmitted){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM masterlist WHERE sessionadmitted='$sessionLevelOneAdmitted' AND entrylevel=1";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "No matching record found";
+		$ret='<table border="1"><tr>';
+		$row_data = mysqli_fetch_assoc ( $chk );
+		do {
+			$i = 1;
+			$ret.='<td><img src="'.$row_data['passportfile'].'" height="100px" width="75px" alt="View Passport Photo"/><br/>';
+			$ret.=$row_data['surname'].','.$row_data['firstname'];
+			
+			$ret.='('.$row_data['jambno'].',';
+			$ret.=$row_data['matricno'].')<br/>';
+			$ret.='</td>';
+			$i= $i + 1;
+			if($i==4){
+				$ret.='</tr><tr>';
+
+			}
+		}while ( $row_data = mysqli_fetch_assoc ( $chk ));
+		
+		return $ret.'</tr></table>';
 		
 	}
 	function createExam($coursecode,$cuurentSession,$examdate,$startTime,$endTime){
