@@ -120,6 +120,21 @@ class ClassAlbumManager
 		return $ret;
 
 	}
+	function generateSessionsForEditing($selectedSession){
+		$thisyear=date('Y');
+		$ret="";
+		for($i=$thisyear+1; $i >= $thisyear-50;$i--){
+			$thisSession= ($i - 1).'_'.($i);
+			$ret.= '<option value="'.$thisSession.'" ';
+			if($thisSession==$selectedSession){
+				$ret.= ' selected="selected"';
+			}
+			$ret.= '>'.($i - 1).'/'.($i).'</option>';
+			
+		}
+		return $ret;
+
+	}
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
 	}
@@ -317,7 +332,7 @@ class StudentManager {
 	}
 
 
-	function findStudent($id){
+	function updateStudent($id){
 		require "inc/dbconnection.php";
 
 

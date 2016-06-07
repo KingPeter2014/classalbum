@@ -205,7 +205,7 @@ require_once "inc/header.php";
 			<fieldset>
 				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" >
 			<center><h3>Edit Student's Details</h3>
-				<?php echo '<img src="'.$row['passportfile'].'" alt="View Passport Photo" height="75px"/>'; ?>
+				<?php echo '<img src="'.$row['passportfile'].'" alt="View Passport Photo" height="100px"/>'; ?>
 			</center>
 			<div id="leftdata">
 				<span id="output" class="error">&nbsp;</span>
@@ -213,20 +213,21 @@ require_once "inc/header.php";
 					<tr>
 						<td>Entry Level</td><td><select name="entrylevel">
 																<option value="0">--Select--</option>
-																<option value="1">100</option>
-																<option value="2">200</option>
-																<option value="3">300</option>
+																<option value="1" <?php if($row['entrylevel']==1) echo 'selected="selected"'; ?>>100</option>
+																<option value="2" <?php if($row['entrylevel']==2) echo 'selected="selected"'; ?>>200</option>
+																<option value="3" <?php if($row['entrylevel']==3) echo 'selected="selected"'; ?>>300</option>
 																<option value="4">400</option>
 																<option value="5">500</option>
-																<option value="7">PGD</option>
-																<option value="8">M.Eng/M.Sc</option>
-																<option value="9">Ph.D</option>
+																<option value="7" <?php if($row['entrylevel']==7) echo 'selected="selected"'; ?>>PGD</option>
+																<option value="8" <?php if($row['entrylevel']==8) echo 'selected="selected"'; ?>>M.Eng/M.Sc</option>
+																<option value="9" <?php if($row['entrylevel']==9) echo 'selected="selected"'; ?>>Ph.D</option>
 														</select><font color="red">*</font></td>
 					</tr>
 					<tr>
 						<td>Session Admitted</td><td><select name="sessionadmitted"><option value="0">--Select--</option>
-																<option value="2015_2016">2015/2016</option>
-																<option value="2016_2017">2016/2017</option>
+																<?php require_once 'classfile.php';
+																	echo ClassAlbumManager::generateSessionsForEditing($row['sessionadmitted']);
+																 ?>
 																
 														</select><font color="red">*</font></td>
 					</tr>
