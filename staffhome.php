@@ -63,8 +63,14 @@
 			</div>
 			<div id="classlist" class="majoraction">
 				
+				<center><a href="requestaccount.php"> Add Staff</a></center>
+			</div>
+			<div id="classlist" class="majoraction">
+				
 				<center><a href="logout.php"> Log out</a></center>
 			</div>
+			
+			
 			
 			</fieldset>
 

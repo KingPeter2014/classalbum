@@ -3,6 +3,12 @@
 if (!isset($_SESSION)){
 	session_start();
 }
+if(!isset($_SESSION['staffID']))
+		header("Location:index.php");
+
+if($_SESSION['role'] !="hod" || $_SESSION['role'] !="admin"){
+	die('<span class="error">Access denied! Contact HOD or Portal Administrator</span>');
+}
 
 
 if(isset($_POST['create'])){
@@ -104,6 +110,8 @@ if(isset($_POST['create'])){
 								<td>Role</td><td><select name="role"><option value="0">--Select--</option>
 																<option value="advicer">Course Advicer</option>
 																<option value="lecturer">Lecturer Only</option>
+																<option value="examiner">Exam Officer</option>
+																<option value="admin">Portal Admin</option>
 																<option value="hod">Head of Department</option>
 																
 														</select><font color="red">*</font></td>
