@@ -47,7 +47,7 @@ class ClassAlbumManager
 		$ret.= '<ul>';
 		while($result = mysqli_fetch_assoc($chk)){
 
-			$ret.= '<li onClick="fillId(\''.addslashes($result['id']).'\');fill(\''.addslashes($result['surname']).'\');">'.$result['surname'].','.$result['firstname'].'('. $result['jambno'].','.$result['matricno'].')<tr><td colspan="2"><img src="'.$result['passportfile'].'" alt="View Passport Photo" width="75px" height="100px"/></td></tr></li>';
+			$ret.= '<li onClick="fillId(\''.addslashes($result['id']).'\');fill(\''.addslashes($result['surname']).'\');"><span class="likelink">'.$result['surname'].','.$result['firstname'].'('. $result['jambno'].','.$result['matricno'].')</span><tr><td colspan="2"><img src="'.$result['passportfile'].'" alt="View Passport Photo" width="75px" height="100px"/></td></tr></li>';
 		}
 		$ret.= '</ul>';
 

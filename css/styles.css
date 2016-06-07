@@ -46,6 +46,10 @@ fieldset{border: 0px;}
 .active > a:first-child {
   color: #e2007a !important;
 }
+.likelink{
+	color: blue;
+	font-style: underline;
+}
 #stalogin{
 	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
 	float:left;
