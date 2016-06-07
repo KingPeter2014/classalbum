@@ -34,6 +34,7 @@ function finished(s){
 }
 </script>
 		<div id="register">
+			<hr>
 			<fieldset>
 
 			<center><h3>Staff/Student Login</h3></center>
@@ -55,7 +56,6 @@ function finished(s){
 
 				</table>
 				</FORM>
-				<center><a href="requestaccount.php"> Request for an Account</a></center>
 			</div>
 			<div id="stulogin">
 				<center><h3>Student Login</h3></center>
@@ -78,6 +78,6 @@ function finished(s){
 				
 			</fieldset>
 		</div><!-- End of Register div -->
-		<div id="footer"> &copy SEAS Team 2016. (contact: peter.eze@futo.edu.ng)</div>
+		<div id="footer"> <hr> <center>&copy SEAS Team 2016. (contact: peter.eze@futo.edu.ng)</center></div>
 	</body>
 </html>

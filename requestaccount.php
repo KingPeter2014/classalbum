@@ -6,7 +6,7 @@ if (!isset($_SESSION)){
 if(!isset($_SESSION['staffID']))
 		header("Location:index.php");
 
-if($_SESSION['role'] !="hod" || $_SESSION['role'] !="admin"){
+if($_SESSION['role'] !="hod" && $_SESSION['role'] !="admin"){
 	die('<span class="error">Access denied! Contact HOD or Portal Administrator</span>');
 }
 
