@@ -28,7 +28,7 @@
 		die('<span class="error">Please, select a valid Student to checkin to this exam</span>');
 
 	}
-	$ret=$student->viewstudent($matricnumber,$jambno,$student_id);
+	$ret=$student->studentCheckinToExam($coursecode,$sessionofexam,$student_id);
 	echo $ret;
 	exit;
 }

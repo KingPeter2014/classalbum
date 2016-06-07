@@ -57,6 +57,7 @@ class ClassAlbumManager
 		return $ret;
 	}
 
+
 	function addStaff($spno,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$phone,$email,$role,$classadvised){
 		$password=MD5("Password1");
 		require "inc/dbconnection.php";
@@ -249,6 +250,51 @@ class StudentManager {
 	function editStudent($matricnumber){
 
 	}
+	function getStudentMatricNumberFromSerialNumber($serial){
+		$ret = '';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT matricno FROM masterlist WHERE  id='$serial'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "Nil";
+		$row = mysqli_fetch_assoc ( $chk );
+		$ret=$row['matricno'];
+		return $ret;
+	}
+	function getStudentJAMBNumberFromSerialNumber($serial){
+		$ret = '';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT jambno FROM masterlist WHERE  id='$serial'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "Nil";
+		$row = mysqli_fetch_assoc ( $chk );
+		$ret=$row['jambno'];
+		return $ret;
+	}
+	function studentCheckinToExam($coursecode,$sessionofexam,$studentserial){
+		$studentreg= StudentManager::getStudentMatricNumberFromSerialNumber($studentserial);
+		$studentjamb="";
+		if($studentreg=="" || $studentreg=="Nil"){
+			$studentjamb= StudentManager::getStudentJAMBNumberFromSerialNumber($studentserial);
+			$studentreg=$studentjamb;
+		}
+
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql=" INSERT INTO checkinout(coursecode,studentid,sessionofexam) VALUES('$coursecode','$studentreg','$sessionofexam')";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if($chk){
+			return $studentreg.' was successfully checked into  '.$coursecode. ' exam for '.$sessionofexam. ' Session';
+		}
+		else{
+			return $studentreg." NOT successfully checked in ".mysqli_error($dbconnection);
+		}
+
+	}
+
 	function viewStudent($matricno,$jambno,$student_id){
 		$ret='<table width="100%" cellpadding="10">';
 		require "inc/dbconnection.php";
