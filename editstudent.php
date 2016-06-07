@@ -202,9 +202,8 @@ require_once "inc/header.php";
 					</tr>
 					<tr>
 						<td>Session Admitted</td><td><select name="sessionadmitted"><option value="0">--Select--</option>
-																<?php require_once 'classfile.php';
-																	echo ClassAlbumManager::generateSessions();
-																 ?>
+																<option value="2015_2016">2015/2016</option>
+																<option value="2016_2017">2016/2017</option>
 																
 														</select><font color="red">*</font></td>
 					</tr>

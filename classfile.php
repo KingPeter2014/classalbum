@@ -110,6 +110,16 @@ class ClassAlbumManager
 			return $ret;
 	
 	}
+	function generateSessions(){
+		$thisyear=date('Y');
+		$ret="";
+		for($i=$thisyear+1; $i >= $thisyear-50;$i--){
+			$ret.= '<option value="'.($i - 1).'_'.($i).'">'.($i - 1).'/'.($i).'</option>';
+			//$ret.= '<option value="">'.$i.'/'.($i + 1).'</option>';
+		}
+		return $ret;
+
+	}
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		
 	}
@@ -307,7 +317,7 @@ class StudentManager {
 	}
 
 
-	function editStudent($matricnumber){
+	function findStudent($id){
 		require "inc/dbconnection.php";
 
 
