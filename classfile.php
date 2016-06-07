@@ -245,9 +245,27 @@ class StudentManager {
 			return $sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
 		}
 	}
+	function getActiveExams(){
+		$ret='';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql="SELECT * FROM courses WHERE examstatus='active'  ORDER BY coursecode";
+		$result=mysqli_query($dbconnection,$sql);
+		while ( $row= mysqli_fetch_assoc($result)) {
+			$ret.= '<option value="'.$row['coursecode'].'">'.$row['coursecode'].'</option>';
+		}
+		if($ret==""){
+			$ret='<option value="0">No active exam found</option>';
+		}
+
+		return $ret;
+
+	}
 
 
 	function editStudent($matricnumber){
+		require "inc/dbconnection.php";
+
 
 	}
 	function getStudentMatricNumberFromSerialNumber($serial){

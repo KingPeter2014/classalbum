@@ -16,7 +16,7 @@
 	$student_id =$_POST['student_id'];
 	
 	$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
-	if (trim ( $coursecode ) == "")
+	if (trim ( $coursecode ) == "0")
 	 {
 			die("Please, select a valid course code");
 		}
@@ -115,12 +115,9 @@ Student will enter REG NO or JAMB NO, select an active exam in order to check in
 				<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post">
 				<table>
 					<tr>
-						<td>Course Code</td><td><select name="coursecode"><option value="EEE202">EEE202</option>
-																<option value="2">ECE316</option>
-																<option value="3">ENG226</option>
-																<option value="4">ECE502</option>
-																<option value="5">COE318</option>
-																<option value="7">PSE312</option>
+						<td>Course Code</td><td><select name="coursecode"><?php require_once 'classfile.php';
+																	echo StudentManager::getActiveExams();
+																 ?>
 																
 														</select><font color="red">*</font>
 						</td>
