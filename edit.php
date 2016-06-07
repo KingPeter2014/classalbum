@@ -12,7 +12,7 @@ if(isset($_POST['find'])){
 		die('<span class="error">Please, select a valid Student to find</span>');
 
 	}
-	header("Location:editStudent.php?id=".$student_id)
+	header("Location:editStudent.php?id=".$student_id);
 	
 	exit;
 }

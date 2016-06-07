@@ -287,7 +287,7 @@ require_once "inc/header.php";
 
 
 							<tr>
-								<td>Home Address</td><td><textarea name="homeaddress" rows="6"></textarea><font color="red">*</font></td>
+								<td>Home Address</td><td><textarea value="home" name="homeaddress" rows="6"></textarea><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Country of Origin</td><td><select name="country"><option value="0">--Select--</option>

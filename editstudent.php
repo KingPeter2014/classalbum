@@ -14,6 +14,10 @@ if(isset($_POST['register'])){
 	
 
 	//VALIDATION OF COMPULSORY INPUT FIELDS
+		if($entrylevel=="0"){
+			die("Please, Select a valid Level of Entry.");
+
+		}
 		if (trim ( $jambno ) == ""){
 			die("Error:Please, enter your JAMB Registration Number.");
 		}
@@ -21,6 +25,7 @@ if(isset($_POST['register'])){
 			die("Please, Select a valid Session.");
 
 		}
+		
 		if (trim ( $faculty ) == ""){
 			die( "Please, Select a School/Faculty.");
 		}
@@ -146,8 +151,8 @@ if(isset($_POST['register'])){
         
 	//CALL THE FUNCTION THAT WILL INSERT NEW STUDENT DATA TO DATABASE 
 	$student = new StudentManager;
-	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
-		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
+	//$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
+	//	$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
 	echo $ret;exit;
 
 
@@ -182,15 +187,33 @@ require_once "inc/header.php";
 </script>
 
 		<div id="register">
-			
+			<?php 
+				$student=mysql_real_escape_string($_GET['id']);
+				require "inc/dbconnection.php";
+				mysqli_select_db ($dbconnection,$database_dbconnection );
+				$sql = "SELECT * FROM masterlist WHERE  id=$student";
+				//die($sql);
+				$chk = mysqli_query ( $dbconnection,$sql);
+				if(mysqli_num_rows($chk) <1)
+					die("No matching record found");
+
+				$row = mysqli_fetch_assoc ($chk);
+				do {
+
+
+			?>
 			<fieldset>
 				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" >
-			<center><h3>Departmental Registration</h3></center>
+			<center><h3>Edit Student's Details</h3>
+				<?php echo '<img src="'.$row['passportfile'].'" alt="View Passport Photo" height="75px"/>'; ?>
+			</center>
 			<div id="leftdata">
 				<span id="output" class="error">&nbsp;</span>
 				<table>
 					<tr>
-						<td>Entry Level</td><td><select name="entrylevel"><option value="1">100</option>
+						<td>Entry Level</td><td><select name="entrylevel">
+																<option value="0">--Select--</option>
+																<option value="1">100</option>
 																<option value="2">200</option>
 																<option value="3">300</option>
 																<option value="4">400</option>
@@ -208,10 +231,10 @@ require_once "inc/header.php";
 														</select><font color="red">*</font></td>
 					</tr>
 					<tr>
-						<td>JAMB REG. No.</td><td><input type="text" name="jambno" placeholder="UTME Registration Number"><font color="red">*</font></td>
+						<td>JAMB REG. No.</td><td><input type="text" value="<?php echo $row['jambno'];?>" name="jambno" placeholder="UTME Registration Number"><font color="red">*</font></td>
 					</tr>
 					<tr>
-								<td>Matriculation No.</td><td><input type="text" name="matricno" placeholder="University Number"></td>
+								<td>Matriculation No.</td><td><input type="text" name="matricno" value="<?php echo $row['matricno'] ?>" placeholder="University Number"></td>
 					</tr>
 					<tr>
 						<td>School</td><td><select name="school" id="school"><option value="SEET">SEET</option>
@@ -247,27 +270,27 @@ require_once "inc/header.php";
 
 					</tr>
 					<tr>
-						<td>Surname</td><td><input type="text" name="surname" placeholder="Family Name"><font color="red">*</font></td>
+						<td>Surname</td><td><input type="text" name="surname" value="<?php echo $row['surname'] ?>" placeholder="Family Name"><font color="red">*</font></td>
 					</tr>
 					<tr>
-								<td>First Name</td><td><input type="text" name="firstname" placeholder="Given Name"><font color="red">*</font></td>
+								<td>First Name</td><td><input type="text" name="firstname" value="<?php echo $row['firstname'] ?>" placeholder="Given Name"><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>Middle Name</td><td><input type="text" name="middlename" placeholder="Other Name(s)"></td>
+								<td>Middle Name</td><td><input type="text" name="middlename" value="<?php echo $row['middlename'] ?>" placeholder="Other Name(s)"></td>
 							</tr>
 							<tr>
-								<td>Date of Birth</td><td><input type="text" name="dob" placeholder="DD-MM-YYYY"><font color="red">*</font></td>
+								<td>Date of Birth</td><td><input type="text" name="dob" value="<?php echo $row['dob'] ?>" placeholder="DD-MM-YYYY"><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Sex</td><td><select name="sex"><option value="0">--Select--</option>
-																<option value="M">Male</option>
-																<option value="F">Female</option>
-																<option value="O">Others</option>
+																<option value="M" <?php if($row['sex']=='M') echo 'selected="selected"'; ?>>Male</option>
+																<option value="F" <?php if($row['sex']=='F') echo 'selected="selected"'; ?>>Female</option>
+																<option value="O" <?php if($row['sex']=='O') echo 'selected="selected"'; ?>>Others</option>
 														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Marital Status</td><td><select name="maritalstatus"><option value="0">--Select--</option>
-																<option value="Single">Single</option>
+																<option value="Single" selected="selected">Single</option>
 																<option value="Married">Married</option>
 																<option value="Divorced">Divorced</option>
 																<option value="widow(er)">Widow(er)</option>
@@ -276,7 +299,7 @@ require_once "inc/header.php";
 														</select><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>School Address</td><td><textarea name="schooladdress" rows="4"></textarea><font color="red">*</font></td>
+								<td>School Address</td><td><textarea name="schooladdress" rows="4"><?php echo $row['schooladdress'] ?></textarea><font color="red">*</font></td>
 							</tr>
 							
 				</table>
@@ -286,7 +309,7 @@ require_once "inc/header.php";
 
 
 							<tr>
-								<td>Home Address</td><td><textarea name="homeaddress" rows="6"></textarea><font color="red">*</font></td>
+								<td>Home Address</td><td><textarea name="homeaddress" rows="6"><?php echo $row['homeaddress'] ?></textarea><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Country of Origin</td><td><select name="country"><option value="0">--Select--</option>
@@ -309,10 +332,10 @@ require_once "inc/header.php";
 														</select></td>
 							</tr>
 							<tr>
-								<td>Telephone</td><td><input type="text" name="telephone" placeholder="Mobile Number preffered"><font color="red">*</font></td>
+								<td>Telephone</td><td><input type="text" name="telephone" value="<?php echo $row['phone'] ?>" placeholder="Mobile Number preffered"><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>Email</td><td><input type="email" name="email" placeholder="Valid email address"><font color="red">*</font></td>
+								<td>Email</td><td><input type="email" name="email" value="<?php echo $row['email'] ?>" placeholder="Valid email address"><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Mode of Study</td><td><select name="modeofstudy"><option value="0">--Select--</option>
@@ -323,27 +346,30 @@ require_once "inc/header.php";
 							</tr>
 							
 							<tr>
-								<td>Name of Parent/Guardian</td><td><input type="text" name="parentguardian" placeholder="Full Name"><font color="red">*</font></td>
+								<td>Name of Parent/Guardian</td><td><input type="text" name="parentguardian" value="<?php echo $row['parentguardian'] ?>" placeholder="Full Name"><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>Next of Kin</td><td><input type="text" name="nextofkin" placeholder="Full Name"><font color="red">*</font></td>
+								<td>Next of Kin</td><td><input type="text" name="nextofkin" value="<?php echo $row['nextofkin'] ?>" placeholder="Full Name"><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>Phone Number of Parent/Guardian</td><td><input type="text" name="phoneofparent" placeholder="Phone Number"></td>
+								<td>Phone Number of Parent/Guardian</td><td><input type="text" name="phoneofparent" value="<?php echo $row['parentphone'] ?>" placeholder="Phone Number"></td>
 							</tr>
 							<tr>
-								<td>Phone Number of Next of Kin</td><td><input type="text" name="phoneofkin" placeholder="Phone Number"><font color="red">*</font></td>
+								<td>Phone Number of Next of Kin</td><td><input type="text" name="phoneofkin" value="<?php echo $row['nextofkinphone'] ?>" placeholder="Phone Number"><font color="red">*</font></td>
 							</tr>
 							<tr>
 								<td>Passport Upload</td><td><input type="file" name="passport" placeholder="Passport size Photograph"><font color="red">*</font></td>
 							</tr>
-							<tr><td><input type="submit" name="register" value="Register"></td><td><input type="Reset" value="Cancel"></td>
+							<tr><td><input type="submit" name="register" value="Update"></td><td><input type="Reset" value="Cancel"></td>
 							</tr>
 							
 						</table>
 
 					</div>
 				</FORM>
+				<?php 
+					}while ( $row = mysqli_fetch_assoc ( $chk ));
+				?>
 			</fieldset>
 		</div><!-- End of Register div -->
 		<div id="footer"> &copy SEAS Team 2016. (contact: peter.eze@futo.edu.ng)</div>
