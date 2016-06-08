@@ -13,7 +13,7 @@ if($_POST['classalbum']){
 
 
 <div class="centralarea">
-VIEW CLASS ALBUM FOR STUDENTS OF A PARTICULAR CLASS IDENTIFIED BY SESSION ADMITTED INTO FIRST YEAR FOR A PARTICULAR DEGREE
+
 <div id="stalogin">
 				<center><h3>View Class Album</h3></center>
 				<span id="output" style="">&nbsp;</span>

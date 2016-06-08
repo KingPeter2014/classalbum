@@ -142,14 +142,14 @@ class ClassAlbumManager
 		$directentry = $ex[1].'_'. ($ex[1] + 1);//Direct entry of 200 Level is admitted a session later
 		//return $directentry;
 		mysqli_select_db ($dbconnection,$database_dbconnection );
-		$sql = "SELECT * FROM masterlist WHERE (sessionadmitted='$sessionLevelOneAdmitted' AND entrylevel=1) OR (sessionadmitted='$directentry' AND entrylevel=2)";
+		$sql = "SELECT * FROM masterlist WHERE (sessionadmitted='$sessionLevelOneAdmitted' AND entrylevel=1) OR (sessionadmitted='$directentry' AND entrylevel=2) ORDER BY surname";
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if(mysqli_num_rows($chk) <1)
 			return "No matching record found";
 		$ret='<center><H1>Class Album for '.$sessionLevelOneAdmitted.' Students</H1></center><table border="1"><tr>';
 		$row_data = mysqli_fetch_assoc ( $chk );
+		$i = 1;
 		do {
-			$i = 1;
 			$ret.='<td><center><img src="'.$row_data['passportfile'].'" height="100px" width="75px" alt="View Passport Photo"/><br/>';
 			$ret.=$row_data['surname'].','.$row_data['firstname'];
 			
@@ -157,8 +157,9 @@ class ClassAlbumManager
 			$ret.=$row_data['matricno'].')<br/>';
 			$ret.='</center></td>';
 			$i= $i + 1;
-			if($i==4){
+			if($i > 4){
 				$ret.='</tr><tr>';
+				$i = 1;
 
 			}
 		}while ( $row_data = mysqli_fetch_assoc ( $chk ));
@@ -302,7 +303,7 @@ class StudentManager {
 		$ret='';
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
-		$sql="SELECT * FROM courses WHERE examstatus='active'  ORDER BY coursecode";
+		$sql="SELECT * FROM courses WHERE examstatus='active'  ORDER BY leveloffered";
 		$result=mysqli_query($dbconnection,$sql);
 		while ( $row= mysqli_fetch_assoc($result)) {
 			$ret.= '<option value="'.$row['coursecode'].'">'.$row['coursecode'].'</option>';
@@ -318,7 +319,7 @@ class StudentManager {
 		$ret='';
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
-		$sql="SELECT * FROM courses  ORDER BY coursecode";
+		$sql="SELECT id, `coursecode`, `title`, `credit`, `leveloffered`, `semesteroffered`, `examstatus` FROM courses  ORDER BY leveloffered,semesteroffered";
 		$result=mysqli_query($dbconnection,$sql);
 		while ( $row= mysqli_fetch_assoc($result)) {
 			$ret.= '<option value="'.$row['coursecode'].'">'.$row['coursecode'].'</option>';
