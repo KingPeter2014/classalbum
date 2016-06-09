@@ -173,8 +173,50 @@ class ClassAlbumManager
 	function checkInOut($InOrOut,$matricnumber,$examID){
 
 	}
-	function generateAttendanceList($examID){
+	function getCourseDetails($coursecode){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM courses WHERE  coursecode='$coursecode'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "No matching record found";
+		$ret='<table>';
+		$row = mysqli_fetch_assoc ( $chk );
+		do{
+			$ret.= '<tr><td> Course Code:</td><td>'.$coursecode.'</td></tr>';
+			$ret.= '<tr><td>Course Title:</td><td>'. $row['title'].'</td></tr>';
+			$ret.= '<tr><td>Credit Unit:</td><td>'. $row['credit'].'</td></tr>';
 
+		}while ( $row= mysqli_fetch_assoc($chk));
+		$ret.='</table>';
+		return $ret;
+
+	}
+	function generateAttendanceList($sessionofexam,$coursecode){
+		require "inc/dbconnection.php";
+		$ret= ClassAlbumManager::getCourseDetails($coursecode);
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+
+		
+		$sql = "SELECT c.studentid,c.coursecode,c.examdate,m.matricno,m.jambno,m.surname, m.firstname from checkinout c, masterlist m WHERE (c.studentid = m.matricno OR c.studentid = m.jambno) AND c.sessionofexam = '$sessionofexam' ORDER BY m.surname";
+		//return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1){
+			$ret.="No Attendance recorded for this exam";
+			return $ret;
+		}
+		$count = 1;
+		$ret.='<table border="1"><tr><th> S/N</th><th> NAMES</th><th>MATRIC Number</th><th>Sign-in Time:</th></tr>';
+		$row = mysqli_fetch_assoc ( $chk );
+		do{
+			$ret.= '<tr><td>'.$count.'</td><td>'.$row['surname'].', '.$row['firstname'].'</td>';
+			$ret.= '<td>'. $row['studentid'].'</td>';
+			$ret.= '<td>'. $row['examdate'].'</td></tr>';
+			$count += 1;
+
+		}while ( $row= mysqli_fetch_assoc($chk));
+		$ret.='</table>';
+		return $ret;
 	}
 
 	function generateClassList($sessionLevelOneAdmitted){

@@ -1,14 +1,18 @@
 <?php include "inc/header.php";
 	if($_POST['generate']){
 		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
-	if (trim ( $coursecode ) == "0")
-	 {
+		if (trim ( $coursecode ) == "0")
+	 	{
 			die("Please, select a valid course code");
 		}
-	if(trim ( $sessionofexam ) == "0"){
+		if(trim ( $sessionofexam ) == "0"){
 		die('<span class="error">Please, select a valid session of study for this exam</span>');
 
-	}
+		}
+		//echo $coursecode.$sessionofexam;exit;
+		include('classfile.php');
+		echo ClassAlbumManager::generateAttendanceList($sessionofexam,$coursecode);
+		exit;
 	}
 
  ?>
