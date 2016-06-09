@@ -17,9 +17,12 @@ body{
 	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
 	border-radius: 2em;
 }
-#centralarea{
-	float: right;
+.centralarea{
+	float: center;
 	width:65%;
+	margin-left: 20%;
+	border-radius: 2em;
+	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
 }
 .centralise{
 	left:30%;
