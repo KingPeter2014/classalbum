@@ -198,14 +198,15 @@ class ClassAlbumManager
 		mysqli_select_db ($dbconnection,$database_dbconnection );
 
 		
-		$sql = "SELECT c.studentid,c.coursecode,c.examdate,m.matricno,m.jambno,m.surname, m.firstname from checkinout c, masterlist m WHERE (c.studentid = m.matricno OR c.studentid = m.jambno) AND c.sessionofexam = '$sessionofexam' ORDER BY m.surname";
+		$sql = "SELECT c.studentid,c.coursecode,c.examdate,m.matricno,m.jambno,m.surname, m.firstname from checkinout c, masterlist m WHERE (c.studentid = m.matricno OR c.studentid = m.jambno) AND c.sessionofexam = '$sessionofexam' AND c.coursecode='$coursecode' ORDER BY m.surname";
 		//return $sql;
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if(mysqli_num_rows($chk) <1){
-			$ret.="No Attendance recorded for this exam";
+			$ret.='<span class="error">No Exam Attendance recorded for '.$coursecode.' in '.$sessionofexam. ' Session.</span>';
 			return $ret;
 		}
 		$count = 1;
+		$ret.='<center> <H2>Exam Attendance List for '. $sessionofexam. ' Session</H2></center>';
 		$ret.='<table border="1"><tr><th> S/N</th><th> NAMES</th><th>MATRIC Number</th><th>Sign-in Time:</th></tr>';
 		$row = mysqli_fetch_assoc ( $chk );
 		do{
