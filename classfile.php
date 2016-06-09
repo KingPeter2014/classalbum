@@ -397,6 +397,9 @@ class StudentManager {
 			$studentjamb= StudentManager::getStudentJAMBNumberFromSerialNumber($studentserial);
 			$studentreg=$studentjamb;
 		}
+		$hascheckedin=StudentManager::hasAlreadyCheckedIn($studentreg,$sessionofexam,$coursecode);
+		if ($hascheckedin=='true')
+			return '<span class="error">DUPLICATE ENTRY! '. $studentreg. ' has already checked into '. $coursecode. ' Exam for '.$sessionofexam. ' Session';
 
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
@@ -408,6 +411,17 @@ class StudentManager {
 		else{
 			return $studentreg." NOT successfully checked in ".mysqli_error($dbconnection);
 		}
+
+	}
+	function hasAlreadyCheckedIn($student,$sessionofexam,$coursecode){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM checkinout WHERE studentid='$student' AND coursecode='$coursecode' AND sessionofexam='$sessionofexam'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "false";
+		else
+			return "true";
 
 	}
 
