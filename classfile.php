@@ -314,6 +314,160 @@ class ClassAlbumManager
 		}
 
 	}
+	function createExamTimetable($coursecode,$session, $semester,$venue,$invigilators,$examdate,$starttime,$endtime){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$coursealreadyscheduled=$this->isAlreadyScheduled($coursecode,$session);
+		if($coursealreadyscheduled=='true'){
+			return "error: This course has already been scheduled in current timetable";
+		}
+		$sql = "INSERT INTO examtimetable(coursecode,sessionofexam,semester,venue,invigilatinggroup,examdate,starttime,endtime)
+			 VALUES('$coursecode','$session','$semester','$venue','$invigilators','$examdate','$starttime','$endtime')";
+		//return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		$dw = date('D',strtotime($examdate));// Convert date to Day of Week
+		if($chk){
+			return $coursecode.' has been successfully scheduled on  '.$dw. ' '.$examdate. ' between '.$starttime .' and '. $endtime;
+		}
+		else{
+			return $coursecode." NOT successfully scheduled".$dept. ". Try again ".mysqli_error($dbconnection);
+		}
+	}
+	function isAlreadyScheduled($coursecode,$session){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM examtimetable WHERE sessionofexam = '$session' AND coursecode='$coursecode'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		$row = mysqli_fetch_assoc ( $chk );
+
+		if (mysqli_num_rows ( $chk ) >= 1) {
+			return 'true';
+		} 
+		return 'false';
+
+	}
+
+	function viewExamTimetable($sessionofexam,$semester){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM examtimetable WHERE sessionofexam = '$sessionofexam' AND semester='$semester' ORDER BY examdate,starttime";
+		//return $sql;
+		$chk = mysqli_query ( $dbconnection,$sql);
+		$ret.='<center> <H2>Exam Timetable for '. $sessionofexam. ' Session</H2></center>';
+		$ret.='<table border="1">';
+		//$ret.='<tr><th> DATE </th><th>Course Code</th><th>Time</th><th>Group</th></tr>';
+		$row = mysqli_fetch_assoc ( $chk );
+		$mon = '<tr>';$tue = '<tr>';$wed = '<tr>';$thur = '<tr>';$fri = '<tr>';$sat = '<tr>';
+		$prevDate = "";$prevTime="";$invigilator = "";$onecourse="false";$timerange="";
+		do{
+
+			$dw = date('D',strtotime($row['examdate']));// Convert date to Day of Week
+			if($dw=='Mon'){
+				if($prevDate==""){
+					$mon.= '<td>'.$dw.'<br/> '.$row['examdate'].'</td>';
+					$mon.= '<td>'.$row['coursecode'];
+					$prevDate=$row['examdate'];
+					$invigilator=$row['invigilatinggroup'];
+					$timerange = $row['starttime'].'-'.$row['endtime'];
+					$prevTime = $row['starttime'];
+					$onecourse="true";
+					continue;
+				}
+				else if($prevDate!="" && $prevDate ==$row['examdate'] && $prevTime==$row['starttime']){
+					$mon.= '<br/>'.$row['coursecode'];
+					$mon.= '<br/>'.$timerange.'</td>';
+					$onecourse = 'false';
+				}
+				else if($prevTime != "" && $prevDate ==$row['examdate'] && $prevTime!=$row['starttime']){
+					$timerange = $row['starttime'].'-'.$row['endtime'];
+					if($onecourse=='true')
+						$mon.='</td><td>'.$row['coursecode'];
+					else
+						$mon.='<td>'.$row['coursecode'];
+					$prevTime = $row['starttime'];
+
+				}
+				else if($prevDate!="" && $prevDate !=$row['examdate']){
+					$mon.='<td>'.$invigilator.'</td>'; //End of a Monday's schedule
+
+					$mon.= '<td>'.$dw.'<br/> '.$row['examdate'].'</td>';
+					$mon.= '<td>'.$row['coursecode'];
+					$prevDate=$row['examdate'];
+					$invigilator=$row['invigilatinggroup'];
+					$timerange = $row['starttime'].'-'.$row['endtime'];
+					$prevTime = $row['starttime'];
+					$onecourse="true";
+					//continue;
+				}
+				
+			}
+			if($dw=='Tue'){
+				$tue.= '<td>'.$dw.' '.$row['examdate'].'</td>';
+				$tue.= '<td>'. $row['coursecode'].'<br/>';
+				$tue.= $row['starttime'].'-'.$row['endtime'].'</td>';
+				$tue.= '<td>'. $row['invigilatinggroup'].'</td>';
+			}
+			if($dw=='Wed'){
+				$wed.= '<td>'.$dw.' '.$row['examdate'].'</td>';
+				$wed.= '<td>'. $row['coursecode'].'<br/>';
+				$wed.= $row['starttime'].'-'.$row['endtime'].'</td>';
+				$wed.= '<td>'. $row['invigilatinggroup'].'</td>';
+			}
+			if($dw=='Thu'){
+				$thur.= '<td>'.$dw.' '.$row['examdate'].'</td>';
+				$thur.= '<td>'. $row['coursecode'].'<br/>';
+				$thur.= $row['starttime'].'-'.$row['endtime'].'</td>';
+				$thur.= '<td>'. $row['invigilatinggroup'].'</td>';
+			}
+			if($dw=='Fri'){
+				$fri.= '<td>'.$dw.' '.$row['examdate'].'</td>';
+				$fri.= '<td>'. $row['coursecode'].'<br/>';
+				$fri.= $row['starttime'].'-'.$row['endtime'].'</td>';
+				$fri.= '<td>'. $row['invigilatinggroup'].'</td>';
+			}
+			if($dw=='Sat'){
+				$sat.= '<td>'.$dw.' '.$row['examdate'].'</td>';
+				$sat.= '<td>'. $row['coursecode'].'<br/>';
+				$sat.= $row['starttime'].'-'.$row['endtime'].'</td>';
+				$sat.= '<td>'. $row['invigilatinggroup'].'</td>';
+			}
+
+
+			//$ret.= '<tr><td>'.$dw.' '.$row['examdate'].'</td>';
+			//$ret.= '<td>'. $row['coursecode'].'</td>';
+			//$ret.= '<td>'. $row['starttime'].'-'.$row['endtime'].'</td>';
+			//$ret.= '<td>'. $row['invigilatinggroup'].'</td>';
+			//$ret.='</tr>';
+			
+		}while ( $row= mysqli_fetch_assoc($chk));
+		
+		$mon .='</tr>';$tue .='</tr>';$wed .='</tr>';$thur.= '</tr>';$fri .= '</tr>';$sat .= '</tr>';
+		$ret.= $mon.$tue.$wed.$thur.$fri.$sat;
+		$ret.='</table>';
+		return $ret;
+	}
+	function getMondaySchedule($sessionofexam,$semester){
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM examtimetable WHERE sessionofexam = '$sessionofexam' AND semester='$semester' AND  ORDER BY examdate";
+		//return $sql;
+
+	}
+	function getTuedaySchedule($sessionofexam,$semester){
+
+	}
+	function getWednesdaySchedule($sessionofexam,$semester){
+
+	}
+	function getThursdaySchedule($sessionofexam,$semester){
+
+	}
+	function getFridaySchedule($sessionofexam,$semester){
+
+	}
+	function getSaturdaySchedule($sessionofexam,$semester){
+
+	}
 	
 }
 

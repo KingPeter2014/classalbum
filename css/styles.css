@@ -47,6 +47,10 @@ table {
 	background-color: white;
 	
 }
+.center{
+	float:center;
+	margin-left: 25%;
+}
 fieldset{border: 0px;}
 
 .active > a:first-child {

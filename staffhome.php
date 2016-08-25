@@ -14,7 +14,7 @@
 			<fieldset>
 			
 			<div id="myprofile">
-				<center><a href="myprofile.php"> My Profile</a></center>
+				<center><a href="myprofile.php?staff=<?php  echo $_SESSION['staffID'];?> "> My Profile</a></center>
 			</div>
 			<div id="importbiodata" class="majoraction">
 				
