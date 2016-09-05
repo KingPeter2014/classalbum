@@ -207,12 +207,12 @@ class ClassAlbumManager
 		}
 		$count = 1;
 		$ret.='<center> <H2>Exam Attendance List for '. $sessionofexam. ' Session</H2></center>';
-		$ret.='<table border="1"><tr><th> S/N</th><th> NAMES</th><th>MATRIC Number</th><th>Sign-in Time:</th></tr>';
+		$ret.='<table border="1"><tr><th> S/N</th><th> NAMES</th><th>MATRIC Number</th><th>Sign-in Time:</th><th>Exam Score</th></tr>';
 		$row = mysqli_fetch_assoc ( $chk );
 		do{
 			$ret.= '<tr><td>'.$count.'</td><td>'.$row['surname'].', '.$row['firstname'].'</td>';
 			$ret.= '<td>'. $row['studentid'].'</td>';
-			$ret.= '<td>'. $row['examdate'].'</td></tr>';
+			$ret.= '<td>'. $row['examdate'].'</td><td></td></tr>';
 			$count += 1;
 
 		}while ( $row= mysqli_fetch_assoc($chk));
