@@ -135,6 +135,7 @@ class ClassAlbumManager
 		return $ret;
 
 	}
+	
 	function generateClassAlbum($sessionLevelOneAdmitted){
 		require "inc/dbconnection.php";
 		$ex =explode("_",$sessionLevelOneAdmitted);
@@ -221,6 +222,30 @@ class ClassAlbumManager
 	}
 
 	function generateClassList($sessionLevelOneAdmitted){
+		require "inc/dbconnection.php";
+		$ex =explode("_",$sessionLevelOneAdmitted);
+		
+		$directentry = $ex[1].'_'. ($ex[1] + 1);//Direct entry of 200 Level is admitted a session later
+		//return $directentry;
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM masterlist WHERE (sessionadmitted='$sessionLevelOneAdmitted' AND entrylevel=1) OR (sessionadmitted='$directentry' AND entrylevel=2) ORDER BY surname";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "No matching record found";
+		$count = 1;
+		$ret.='<center> <H2>Class List for '. $sessionLevelOneAdmitted. ' Set</H2></center>';
+		$ret.='<table border="1"><tr><th> S/N</th><th> NAMES</th><th>MATRIC Number</th><th>Test:</th><th>Lab</th><th>Exam</th><th>Total </th><th>Remark</th></tr>';
+		$row = mysqli_fetch_assoc ( $chk );
+		do{
+			$ret.= '<tr><td>'.$count.'</td><td>'.$row['surname'].', '.$row['firstname'].' '.$row['middlename'].'</td>';
+			$ret.= '<td>'. $row['matricno'].'</td>';
+			$ret.= '<td></td><td></td><td></td><td></td><td></td></tr>';
+			$count += 1;
+
+		}while ( $row= mysqli_fetch_assoc($chk));
+
+		$ret.='</table>';
+		return $ret;
 
 	}
 
