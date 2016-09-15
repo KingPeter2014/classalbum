@@ -3,8 +3,8 @@ if($_POST['generate']){
 		$sessionadmitted=$_POST['sessionofexam'];
 		
 		//echo $coursecode.$sessionofexam;exit;
-		include('classfile.php');
-		echo ClassAlbumManager::generateClassList($sessionadmitted);
+		include('classfile.php');$classalbum = new ClassAlbumManager("EEE");
+		echo $classalbum->generateClassList($sessionadmitted);
 		exit;
 	}
 
@@ -20,8 +20,8 @@ Prints class list by entering session admitted. All DE students should be includ
 					
 					<tr>
 						<td>Session Admitted</td><td><select name="sessionofexam"><option value="0">--Select--</option>
-																<?php require_once 'classfile.php';
-																	echo ClassAlbumManager::generateSessions();
+																<?php require_once 'classfile.php';$classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->generateSessions();
 																 ?>
 																
 														</select><font color="red">*</font></td>

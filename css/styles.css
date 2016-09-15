@@ -25,7 +25,11 @@ body{
 	background: #7d7d7d url(../images/gradient.png) repeat-x 0 -110px;
 }
 .centralise{
-	left:30%;
+	float: center;
+	margin-left: 25%;
+	margin-right: 25%;
+	border-radius: 2em;
+	
 }
 .majoraction {
 	margin: 0;
@@ -37,13 +41,14 @@ select,textarea,input[type="text"],input[type="email"],input[type="submit"],inpu
 	width: 95%;
 }
 table {
-	width:100%;
+	width:95%;
 }
 .error {color: #A00; font-weight: 800; 
 	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAiElEQVR42r2RsQrDMAxEBRdl8SDcX8lQPGg1GBI6lvz/h7QyRRXV0qUULwfvwZ1tenw5PxToRPWMC52eA9+WDnlh3HFQ/xBQl86NFYJqeGflkiogrOvVlIFhqURFVho3x1moGAa3deMs+LS30CAhBN5nNxeT5hbJ1zwmji2k+aF6NENIPf/hs54f0sZFUVAMigAAAABJRU5ErkJggg==") no-repeat scroll 0% 50%;
     
 }
 .success{
+	color: black;
 	background-color: white;
 	
 }
@@ -95,5 +100,126 @@ fieldset{border: 0px;}
 #footer {width : 100%;
 float : left;
 background: green url(../images/gradient.png) repeat-x 0 -110px;
+}
+
+/* dropdown */
+#nav li:hover > ul {
+	display: block;
+}
+
+/* level 2 list */
+#nav ul {
+	display: none;
+
+	margin: 0;
+	padding: 0;
+	width: 185px;
+	position: absolute;
+	top: 35px;
+	left: 0;
+	background: #ddd url(../images/gradient.png) repeat-x 0 0;
+	border: solid 1px #b4b4b4;
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	box-shadow: 0 1px 3px rgba(0,0,0, .3);
+}
+#nav ul li {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+
+#nav ul a {
+	font-weight: normal;
+	text-shadow: 0 1px 0 #fff;
+}
+
+/* level 3+ list */
+#nav ul ul {
+	left: 181px;
+	top: -3px;
+}
+
+/* rounded corners of first and last link */
+#nav ul li:first-child > a {
+	-webkit-border-top-left-radius: 9px;
+	-moz-border-radius-topleft: 9px;
+
+	-webkit-border-top-right-radius: 9px;
+	-moz-border-radius-topright: 9px;
+}
+#nav ul li:last-child > a {
+	-webkit-border-bottom-left-radius: 9px;
+	-moz-border-radius-bottomleft: 9px;
+
+	-webkit-border-bottom-right-radius: 9px;
+	-moz-border-radius-bottomright: 9px;
+}
+
+/* clearfix */
+#nav:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+#nav {
+	display: inline-block;
+} 
+html[xmlns] #nav {
+	display: block;
+}
+ 
+* html #nav {
+	height: 1%;
+}
+
+#menubar{
+	/*width:80%; */
+	margin-left: 260px;
+	padding: 7px 6px 0;
+	background: #7887ab url(../images/gradient.png) repeat-x 0 -110px;
+	border-radius: 2em;
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .4);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .4);
+	color: #666;
+	height:	40px;
+	
+}
+#menubar li{
+	padding: 0 0 12px;
+
+	float:	left;
+	position: relative;
+	list-style: none;
+	font-weight: bold;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+	font-size: 18px
+}
+#menubar a{
+	font-weight: bold;
+	color: #e7e5e5;
+	border-radius: 2em;
+	text-decoration: none;
+	display: block;
+	padding: 4px 4px;
+	background: #000;
+	margin: 0;
+	-webkit-border-radius: 1.6em;
+	-moz-border-radius: 1.6em;
+	text-shadow: 0 1px 1px rgba(0,0,0,0.3);	
+}
+#menubar a:hover {
+	background: #ccc;
+	color: #fff;
 }
 

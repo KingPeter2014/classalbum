@@ -15,11 +15,12 @@
 		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
 		if (trim ( $coursecode ) == "0")
 	 	{
-			die('<span class="error">Please, select a valid course code</span>');
+			die('error:Please, select a valid course code');
 		}
 		include('classfile.php');
-		$ret=StudentManager::deActivateExam($coursecode);
-		echo $ret;
+		$student = new StudentManager();
+		$ret=$student->deActivateExam($coursecode);
+		echo $ret;exit;
 		
 	}
 
@@ -34,19 +35,19 @@
 	$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
 	if (trim ( $coursecode ) == "0")
 	 {
-			die("Please, select a valid course code");
+			die("error:Please, select a valid course code");
 		}
 	if(trim ( $sessionofexam ) == "0"){
-		die('<span class="error">Please, select a valid session of study for this exam</span>');
+		die('error:Please, select a valid session of study for this exam');
 
 	}
 	if(trim ( $student_id ) == ""){
-		die('<span class="error">Please, select a valid Student to checkin to this exam</span>');
+		die('error:Please, select a valid Student to checkin to this exam');
 
 	}
 	$ret=$student->studentCheckinToExam($coursecode,$sessionofexam,$student_id);
-	echo $ret;
-	exit;
+	echo $ret;exit;
+	
 }
 
  ?>
@@ -57,9 +58,23 @@
 		$('span#output').html(' Processing...')
 	}
 	function finished(s){
-		$('span#output').html('<div class="warning-bar">'+s+'</div>');
+		//$('span#output').html('<div class="success">'+s+'</div>');
 
+		if(s.indexOf("success")!=-1){
+			s1=s.split(":");
+			
+				$('span#output').html('<div class="success">'+ s1[1] +'</div>');
+			//Boxy.load('/highacademia/configure.php',{title:'Configure your Institution',afterHide:function(){location.href='home.php';}});
+		}
+		else if(s.indexOf("error")!=-1){
+			s1=s.split(":");
+			$('span#output').html('<div class="error">'+ s1[1] +'</div>');
+		}
+		else
+			$('span#output').html('<div class="error"> Unknown Error Occured</div>');
+		$('#studentname').val("");
 	}
+
 
 	function suggest(inputString){
 		if(inputString.length == 0) {
@@ -91,18 +106,19 @@
 
 	</script>
 <div class="centralarea">
+	<center><span id="output">&nbsp;</span></center>
 <hr>
 <div id="stalogin">
 				<center><h3>Activate/Deactivate Exam</h3></center>
-				<span id="output" style="">&nbsp;</span>
+				
 				<!-- <form id="form1" name="form1" method="post" action="index.php" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"> -->
-				<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post" >
+				<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
 				<table>
 					
 					<tr>
 						<td>Course Code</td><td><select name="coursecode">
-														<?php require_once 'classfile.php';
-																	echo StudentManager::getAllCourses();
+														<?php require_once 'classfile.php';$student = new StudentManager("EEE");
+																	echo $student->getAllCourses();
 																 ?>
 																
 																
@@ -119,11 +135,12 @@
 
 			<div id="stulogin">
 				<center><h3>Student Checkin </h3></center>
-				<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post">
+				<FORM action=<?php echo $_SERVER['REQUEST_URI'];?> method="post" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
 				<table>
 					<tr>
 						<td>Course Code</td><td><select name="coursecode"><?php require_once 'classfile.php';
-																	echo StudentManager::getActiveExams();
+							$student = new StudentManager("EEE");
+																	echo $student->getActiveExams();
 																 ?>
 																
 														</select><font color="red">*</font>
@@ -131,8 +148,8 @@
 					</tr>
 					<tr>
 						<td>Session of Exam</td><td><select name="sessionofexam"><option value="0">--Select--</option>
-																<option value="2015_2016">2015/2016</option>
-																<option value="2016_2017">2016/2017</option>
+																<?php $classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->generateSessions(); ?>
 																
 														</select><font color="red">*</font>
 						</td>

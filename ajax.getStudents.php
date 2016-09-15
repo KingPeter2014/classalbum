@@ -1,10 +1,11 @@
 <?php
-	$searchterm=mysql_real_escape_string($_GET['queryString']);
+	$searchterm=trim($_GET['queryString']);
 
 
-if(isset($_REQUEST['act']) && $_REQUEST['act'] =='autoSuggestUser' && isset($_REQUEST['queryString'])) {
+if(isset($_GET['act']) && $_GET['act'] =='autoSuggestUser' && isset($_GET['queryString'])) {
 	require_once 'classfile.php';
-	echo ClassAlbumManager::getStudentSuggestions($searchterm);
+	$classalbum = new ClassAlbumManager("EEE");
+	echo $classalbum->getStudentSuggestions($searchterm);
 
 }
 	

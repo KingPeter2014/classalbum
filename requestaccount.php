@@ -119,8 +119,9 @@ if(isset($_POST['create'])){
 							<tr>
 						<td>Class Advised</td><td><select name="classadvised" id="classadvised">
 														<option value="none">None</option>
-														<option value="2016/2017">2016/2017 Entry</option>
-																
+														<?php require_once 'classfile.php';$classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->generateSessions();
+																 ?>
 																
 														</select><font color="red">*</font></td>
 					</tr>

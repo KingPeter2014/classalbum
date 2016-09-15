@@ -515,10 +515,10 @@ class StudentManager {
 		//return $sql;
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if($chk){
-			return $sname.' has been successfully registered in '.$dept. '<br><img src="'.$passport.'"/>';
+			return 'success:'.$sname.' has been successfully registered in '.$dept. '<br><img src="'.$passport.'"/>';
 		}
 		else{
-			return $sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
+			return 'error:'.$sname." NOT successfully registered in ".$dept. ". Try again or contact your course adviser<br>".mysqli_error($dbconnection);
 		}
 	}
 	function getActiveExams(){
@@ -560,10 +560,10 @@ class StudentManager {
 			#return $sql;
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if($chk){
-			return '<span class="success">'.$coursecode.' was SUCCESSFULLY ACTIVATED as current exam </span>';
+			return 'success:'.$coursecode.' was SUCCESSFULLY ACTIVATED as current exam </span>';
 		}
 		else{
-			return $studentreg." NOT successfully activated ".mysqli_error($dbconnection);
+			return 'error:'.$studentreg." NOT successfully activated ".mysqli_error($dbconnection);
 		}
 
 	}
@@ -574,10 +574,10 @@ class StudentManager {
 			#return $sql;
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if($chk){
-			return '<span class="success">'.$coursecode.' was SUCCESSFULLY DEACTIVATED and students will no longer sign into its exam </span>';
+			return 'success:'.$coursecode.' was SUCCESSFULLY DEACTIVATED and students will no longer sign into its exam </span>';
 		}
 		else{
-			return $studentreg.' <span class="error">NOT successfully Deactivated.</span> '.mysqli_error($dbconnection);
+			return 'error:'.$studentreg.' <span class="error">NOT successfully Deactivated.</span> '.mysqli_error($dbconnection);
 		}
 
 	}
@@ -612,26 +612,41 @@ class StudentManager {
 		$ret=$row['jambno'];
 		return $ret;
 	}
+	function getStudentNamesFromSerialNumber($serial){
+		$ret = '';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		$sql = "SELECT * FROM masterlist WHERE  id='$serial'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "Nil";
+		$row = mysqli_fetch_assoc ( $chk );
+		$ret=$row['surname'].','.$row['firstname'];
+		return $ret;
+	}
 	function studentCheckinToExam($coursecode,$sessionofexam,$studentserial){
 		$studentreg= StudentManager::getStudentMatricNumberFromSerialNumber($studentserial);
+		$studentname= StudentManager::getStudentNamesFromSerialNumber($studentserial);
 		$studentjamb="";
 		if($studentreg=="" || $studentreg=="Nil"){
 			$studentjamb= StudentManager::getStudentJAMBNumberFromSerialNumber($studentserial);
 			$studentreg=$studentjamb;
+
 		}
 		$hascheckedin=StudentManager::hasAlreadyCheckedIn($studentreg,$sessionofexam,$coursecode);
 		if ($hascheckedin=='true')
-			return '<span class="error">DUPLICATE ENTRY! '. $studentreg. ' has already checked into '. $coursecode. ' Exam for '.$sessionofexam. ' Session';
+			return 'error:DUPLICATE ENTRY! '. $studentreg. ' has already checked into '. $coursecode. ' Exam for '.$sessionofexam. ' Session';
+		$brief = StudentManager::viewStudentBrief($studentreg,$studentjamb,$studentserial);
 
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
 		$sql=" INSERT INTO checkinout(coursecode,studentid,sessionofexam) VALUES('$coursecode','$studentreg','$sessionofexam')";
 		$chk = mysqli_query ( $dbconnection,$sql);
 		if($chk){
-			return $studentreg.' was successfully checked into  '.$coursecode. ' exam for '.$sessionofexam. ' Session';
+			return 'success:'.$brief.$studentname.' has been successfully checked into  '.$coursecode. ' exam for '.$sessionofexam. ' Session';
 		}
 		else{
-			return $studentreg." NOT successfully checked in ".mysqli_error($dbconnection);
+			return  'error:'.$studentreg." NOT successfully checked in ".mysqli_error($dbconnection);
 		}
 
 	}
@@ -648,7 +663,7 @@ class StudentManager {
 	}
 
 	function viewStudent($matricno,$jambno,$student_id){
-		$ret='<table width="100%" cellpadding="10">';
+		$ret='<div class="centralise"><table width="100%" cellpadding="10">';
 		require "inc/dbconnection.php";
 		mysqli_select_db ($dbconnection,$database_dbconnection );
 		if($jambno != "")
@@ -679,7 +694,34 @@ class StudentManager {
 			$ret.='<tr><td><strong>School Address:</strong></td><td>'.$row_data['schooladdress'].'</td></tr>';
 			$ret.='<tr><td colspan="2"><strong><a href="'.$row_data['passportfile'].'">View Passport Photo</a></strong></td></tr>';
 		}while ( $row_data = mysqli_fetch_assoc ( $chk ));
-		$ret.='</table>';
+		$ret.='</table></div>';
+		return $ret;
+
+	}
+	function viewStudentBrief($matricno,$jambno,$student_id){
+		$ret='<div class="centralise"><table width="80%" cellpadding="1">';
+		require "inc/dbconnection.php";
+		mysqli_select_db ($dbconnection,$database_dbconnection );
+		if($jambno != "")
+			$sql = "SELECT * FROM masterlist WHERE jambno='$jambno'";
+		elseif ($student_id != "") {
+			$sql = "SELECT * FROM masterlist WHERE id=$student_id";
+		}
+		elseif ($matricno != "") {
+			$sql = "SELECT * FROM masterlist WHERE matricno='$matricno'";
+		}
+		else
+			$sql = "SELECT * FROM masterlist WHERE jambno='$jambno' OR matricno='$matricno' OR id='$student_id'";
+		$chk = mysqli_query ( $dbconnection,$sql);
+		if(mysqli_num_rows($chk) <1)
+			return "No matching record found";
+
+		$row_data = mysqli_fetch_assoc ( $chk );
+		do {
+			$ret.='<tr><td colspan="2"><img src="'.$row_data['passportfile'].'" alt="View Passport Photo" width="60%" height="80%"/></td></tr>';
+			//$ret.='<tr><td width="20%"><strong>Surname:</strong></td><td>'.$row_data['surname'].',' .$row_data['firstname'].'('.$row_data['matricno'].')</td></tr>';
+		}while ( $row_data = mysqli_fetch_assoc ( $chk ));
+		$ret.='</table></div>';
 		return $ret;
 
 	}

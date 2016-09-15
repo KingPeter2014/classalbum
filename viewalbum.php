@@ -23,8 +23,8 @@ if($_POST['classalbum']){
 					
 					<tr>
 						<td>Session Class was Admitted</td><td><select name="sessionadmitted"><option value="0">--Select--</option>
-																<?php require_once 'classfile.php';
-																	echo ClassAlbumManager::generateSessions();
+																<?php require_once 'classfile.php';$classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->generateSessions();
 																 ?>
 																
 														</select><font color="red">*</font>

@@ -15,62 +15,62 @@ if(isset($_POST['register'])){
 
 	//VALIDATION OF COMPULSORY INPUT FIELDS
 		if (trim ( $jambno ) == ""){
-			die("Error:Please, enter your JAMB Registration Number.");
+			die("error:Please, enter your JAMB Registration Number.");
 		}
 		if($sessionadmitted=="0"){
-			die("Please, Select a valid Session.");
+			die("error:Please, Select a valid Session.");
 
 		}
 		if (trim ( $faculty ) == ""){
-			die( "Please, Select a School/Faculty.");
+			die( "error:Please, Select a School/Faculty.");
 		}
 		if (trim ( $sname ) == ""){
-			die("Please, Enter your Surname or Family name.");
+			die("error:Please, Enter your Surname or Family name.");
 		}
 		if (trim ( $fname ) == ""){
-			die("Please, Enter your First name or Given name.");
+			die("error:Please, Enter your First name or Given name.");
 		}
 		if (trim ( $dob ) == ""){
-			die("Please, Enter your Date of Birth.");
+			die("error:Please, Enter your Date of Birth.");
 		}
 		if($sex=="0"){
-			die("Please, Select a valid Gender.");
+			die("error:Please, Select a valid Gender.");
 		}
 		if($mstatus=="0"){
-			die("Please, Select a valid Marital Status.");
+			die("error:Please, Select a valid Marital Status.");
 		}
 		if (trim ( $saddress ) == ""){
-			die( "Please, Enter your address in school or Term time address.");
+			//die( "error:Please, Enter your address in school or Term time address.");
 		}
 		if (trim ( $haddress ) == ""){
-			die("Please, Enter your Home Address.");
+			die("error:Please, Enter your Home Address.");
 		}
 		if (strlen($haddress) < 10){
-			die("Home Address is too short and probably incomplete.");
+			die("error:Home Address is too short and probably incomplete.");
 		}
 		if (trim ( $corigin) == "0"){
-			die("Please, Select a valid country of origin.");
+			die("error:Please, Select a valid country of origin.");
 		}
 		if (trim ( $soorigin) == "0"){
-			die("Please, Select a valid State of origin.");
+			die("error:Please, Select a valid State of origin.");
 		}
 		if (trim ($phone) == ""){
-			die("Please, enter a valid Phone Number.");
+			die("error:Please, enter a valid Phone Number.");
 		}
 		if (trim ( $email) == ""){
-			die("Please, enter a valid Email Address.");
+			die("error:Please, enter a valid Email Address.");
 		}
 		if (trim ( $mofstudy) == "0"){
-			die("Please, Select a valid Mode of Study.");
+			die("error:Please, Select a valid Mode of Study.");
 		}
 		if (trim ( $pguardian) == ""){
-			die("Please, enter full name of your Parent/Guardian.");
+			die("error:Please, enter full name of your Parent/Guardian.");
 		}
 		if (trim ( $nok) == ""){
-			die("Please, enter full name of your Next of Kin.");
+			die("error:Please, enter full name of your Next of Kin.");
 		}
 		if (trim ( $nokphone) == ""){
-			die("Please, enter Phone Number of your Next of Kin.");
+			die("error:Please, enter Phone Number of your Next of Kin.");
 		}
 
 	//PROCESS PASSPORT FILE
@@ -117,24 +117,25 @@ if(isset($_POST['register'])){
         //echo "File is an image - " . $check["mime"] . ".";
         
     } else {
-        die ("Passport File chosen is not an image.");
+        die ("error:Passport File chosen is not an image.");
        
     }
 
     // Check if file already exists
 	if (file_exists($target_file)) {
-    	die("Sorry, passport file already exists.");
+    	die("error:Sorry, passport file already exists.");
 	}
 	// Check file size
 	if ($_FILES["passport"]["size"] > 10000000) {
-    	die("Sorry, your passport file is too large.");
+    	die("error:Sorry, your passport file is too large.");
     	$uploadOk = 0;
 	}
 	//Finally try to upload the file
+	$uploaded="";
 	if (move_uploaded_file($_FILES["passport"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["passport"]["name"]). " has been uploaded.";
+        $uploaded= "<br/>The file ". basename( $_FILES["passport"]["name"]). " has been uploaded.";
     } else {
-        die("Sorry, there was an error uploading your passport.");
+        die("error:Sorry, there was an error uploading your passport.");
     }
     //To be passed to function and saved to database
 	$passport=$target_file;
@@ -148,7 +149,7 @@ if(isset($_POST['register'])){
 	$student = new StudentManager;
 	$ret = $student->registerStudent($jambno,$matricnumber,$entrylevel,$sessionadmitted,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$dob,$sex,$mstatus,$saddress,
 		$haddress,$corigin,$soorigin,$lga,$phone,$email,$mofstudy,$pguardian,$nok,$parentphone,$nokphone,$passport);
-	echo $ret;exit;
+	echo $ret.$uploaded;exit;
 
 
 }
@@ -161,14 +162,25 @@ require_once "inc/header.php";
 		$('span#output').html(' Processing...')
 	}
 	function finished(s){
-		$('span#output').html('<div class="warning-bar">'+s+'</div>');
+		//$('span#output').html('<div class="success">'+s+'</div>');
 
+		if(s.indexOf("success")!=-1){
+			s1=s.split(":");
+			
+				$('span#output').html('<div class="success">'+ s1[1] +'</div>');
+			//Boxy.load('/highacademia/configure.php',{title:'Configure your Institution',afterHide:function(){location.href='home.php';}});
+		}
+		else if(s.indexOf("error")!=-1){
+			s1=s.split(":");
+			if(s1[0]=="error"){$('span#output').html('<div class="error">'+ s1[1] +'</div>');}
+		}
+		else
+			$('span#output').html('<div class="error"> Unknown Error Occured</div>');
 	}
 
 	function getLGAs(x){
 		var state= x.value;
-		
-		//document.write("I reached getLGAs from State:"+state);
+	
 		$.ajax({
 			
 			url:"ajax.getLGAs.php?state_name="+state,
@@ -178,16 +190,35 @@ require_once "inc/header.php";
 			}
 		});
 	}
-//onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})";onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})"
+	
+	function start(){
+		$('span#output').html(' Processing...')
+	}
+	function finished(s){
+		//$('span#output').html('<div class="success">'+s+'</div>');
+
+		if(s.indexOf("success")!=-1){
+			s1=s.split(":");
+			
+				$('span#output').html('<div class="success">'+ s1[1] +'</div>');
+			//Boxy.load('/highacademia/configure.php',{title:'Configure your Institution',afterHide:function(){location.href='home.php';}});
+		}
+		else if(s.indexOf("error")!=-1){
+			s1=s.split(":");
+			if(s1[0]=="error"){$('span#output').html('<div class="error">'+ s1[1] +'</div>');}
+		}
+		else
+			$('span#output').html('<div class="error"> Unknown Error Occured</div>');
+	}
+//onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})";
 </script>
 
 		<div id="register">
 			
 			<fieldset>
-				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" >
-			<center><h3>Departmental Registration</h3></center>
+				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
+			<center><h3>Departmental Registration</h3><span id="output" class="error">&nbsp;</span></center>
 			<div id="leftdata">
-				<span id="output" class="error">&nbsp;</span>
 				<table>
 					<tr>
 						<td>Entry Level</td><td><select name="entrylevel"><option value="1">100</option>
@@ -202,8 +233,8 @@ require_once "inc/header.php";
 					</tr>
 					<tr>
 						<td>Session Admitted</td><td><select name="sessionadmitted"><option value="0">--Select--</option>
-																<?php require_once 'classfile.php';
-																	echo ClassAlbumManager::generateSessions();
+																<?php require_once 'classfile.php';$classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->generateSessions();
 																 ?>
 																
 														</select><font color="red">*</font></td>
@@ -297,8 +328,8 @@ require_once "inc/header.php";
 							</tr>
 							<tr>
 								<td>State of Origin</td><td><select name="state" id="state" onChange="getLGAs(this)"><option value="0">--Select--</option>
-																<?php require_once 'classfile.php';
-																	echo ClassAlbumManager::getStates();
+																<?php require_once 'classfile.php';$classalbum = new ClassAlbumManager("EEE");
+																	echo $classalbum->getStates();
 																 ?>
 																<option value="foreigner">Foreigner</option>
 														</select><font color="red">*</font></td>
