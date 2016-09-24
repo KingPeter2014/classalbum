@@ -21,8 +21,8 @@ if(isset($_POST['changepassword'])){
 	if($staff=="")
 		die("Please, login in again with previous password");
 	
-	include('classfile.php');
-	$ret = ClassAlbumManager::changeStaffPassword($staff,$old,$newpassword);
+	include('classfile.php');$classalbum = new ClassAlbumManager("EEE");
+	$ret = $classalbum->changeStaffPassword($staff,$old,$newpassword);
 	echo $ret;
 	exit;
 }

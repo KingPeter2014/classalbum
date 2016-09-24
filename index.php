@@ -74,9 +74,11 @@ function finished(s){
 				</table>
 				</FORM>
 				<center><a href="register.php"> Freshers Register Here</a></center>
+				
 			</div>
 				
 			</fieldset>
+			<marquee> <font color="#cfa"><h2>Feel free to use SEAS. It does not break!</h2></font></marquee>
 		</div><!-- End of Register div -->
 		<div id="footer"> <hr> <center>&copy SEAS Team 2016. (contact: peter.eze@futo.edu.ng)</center></div>
 	</body>

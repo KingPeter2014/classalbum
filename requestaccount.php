@@ -31,8 +31,8 @@ if(isset($_POST['create'])){
 
 	echo "Default password for new staff user is " . $_POST['password']."<br>";
 
-	include('classfile.php');
-	$ret= ClassAlbumManager::addStaff($spno,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$phone,$email,$role,$classadvised);
+	include('classfile.php');$classalbum = new ClassAlbumManager("EEE");
+	$ret= $classalbum->addStaff($spno,$faculty,$dept,$opt,$title,$sname,$fname,$mname,$phone,$email,$role,$classadvised);
 	echo $ret;
 
 	exit;
@@ -82,10 +82,18 @@ if(isset($_POST['create'])){
 					</tr>
 					<tr>
 								<td>Title</td><td><select name="title"><option value="0">--Select--</option>
+																
+																
 																<option value="Mr">Mr.</option>
 																<option value="Miss">Miss</option>
 																<option value="Mrs">Mrs.</option>
 																<option value="Master">Master</option>
+																<option value="Engr">Engr.</option>
+																<option value="Engrn">Engrn</option>
+																<option value="Engr Dr"> Engr. Dr.</option>
+																<option value="Dr">Dr.</option>
+																<option value="AProf"> Assoc. Prof.</option>
+																<option value="Prof">Prof.</option>
 																
 														</select></td>
 

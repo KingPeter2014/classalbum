@@ -1,18 +1,19 @@
 <?php include "inc/header.php";
-	if($_POST['activate']){
-		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
+if($_POST){
+	if(isset($_POST['activate'])){
+		$coursecode=$_POST['coursecode'];
 		if (trim ( $coursecode ) == "0")
 	 	{
 			die('<span class="error">Please, select a valid course code</span>');
 		}
-		include('classfile.php');
-		$ret=StudentManager::activateExam($coursecode);
+		include('classfile.php');$student = new StudentManager();
+		$ret=$student->activateExam($coursecode);
 		echo $ret;
 
 	}
 
-	if($_POST['deactivate']){
-		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
+	if(isset($_POST['deactivate'])){
+		$coursecode=$_POST['coursecode'];
 		if (trim ( $coursecode ) == "0")
 	 	{
 			die('error:Please, select a valid course code');
@@ -25,29 +26,28 @@
 	}
 
 	if(isset($_POST['checkin'])){
-	include('classfile.php');
-	$student = new StudentManager;
+		include('classfile.php');
+		$student = new StudentManager;
 	
 	//RETRIEVE DATA TO BE USED FOR STUDENT REGISTRATION THROUGH POST
-	$studentname = $_POST['studentname'];
-	$student_id =$_POST['student_id'];
+		$studentname = $_POST['studentname'];
+		$student_id =$_POST['student_id'];
 	
-	$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
-	if (trim ( $coursecode ) == "0")
-	 {
-			die("error:Please, select a valid course code");
+		$coursecode=$_POST['coursecode'];$sessionofexam=$_POST['sessionofexam'];
+		if (trim ( $coursecode ) == "0")
+		 {
+				die("error:Please, select a valid course code");
+			}
+		if(trim ( $sessionofexam ) == "0"){
+			die('error:Please, select a valid session of study for this exam');
 		}
-	if(trim ( $sessionofexam ) == "0"){
-		die('error:Please, select a valid session of study for this exam');
-
-	}
-	if(trim ( $student_id ) == ""){
-		die('error:Please, select a valid Student to checkin to this exam');
-
-	}
-	$ret=$student->studentCheckinToExam($coursecode,$sessionofexam,$student_id);
-	echo $ret;exit;
+		if(trim ( $student_id ) == ""){
+			die('error:Please, select a valid Student to checkin to this exam');
+		}
+		$ret=$student->studentCheckinToExam($coursecode,$sessionofexam,$student_id);
+		echo $ret;exit;
 	
+	}
 }
 
  ?>

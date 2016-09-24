@@ -10,7 +10,8 @@ if(isset($_POST['register'])){
 	$fname=$_POST['firstname'];$mname=$_POST['middlename'];$dob = $_POST['dob'];$sex = $_POST['sex'];$mstatus=$_POST['maritalstatus'];
 	$saddress=$_POST['schooladdress'];$haddress=$_POST['homeaddress'];$corigin=$_POST['country'];$soorigin=$_POST['state'];$lga=$_POST['lga'];
 	$phone=$_POST['telephone'];$email=$_POST['email'];$mofstudy=$_POST['modeofstudy'];$pguardian =$_POST['parentguardian'];$nok = $_POST['nextofkin'];
-	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];$passport=$_POST['passport'];
+	$parentphone = $_POST['phoneofparent'];$nokphone = $_POST['phoneofkin'];
+	//$passport=$_POST['passport'];
 	
 
 	//VALIDATION OF COMPULSORY INPUT FIELDS
@@ -216,7 +217,7 @@ require_once "inc/header.php";
 		<div id="register">
 			
 			<fieldset>
-				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data" onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
+				<FORM action="<?php echo $_SERVER['REQUEST_URI'];?>" method="post" enctype="multipart/form-data"  onsubmit="return AIM.submit(this, {'onStart' : start, 'onComplete' : finished})">
 			<center><h3>Departmental Registration</h3><span id="output" class="error">&nbsp;</span></center>
 			<div id="leftdata">
 				<table>
@@ -367,7 +368,7 @@ require_once "inc/header.php";
 								<td>Phone Number of Next of Kin</td><td><input type="text" name="phoneofkin" placeholder="Phone Number"><font color="red">*</font></td>
 							</tr>
 							<tr>
-								<td>Passport Upload</td><td><input type="file" name="passport" placeholder="Passport size Photograph"><font color="red">*</font></td>
+								<td>Passport Upload</td><td><input type="file" id="passport" name="passport" placeholder="Passport size Photograph"><font color="red">*</font></td>
 							</tr>
 							<tr><td><input type="submit" name="register" value="Register"></td><td><input type="Reset" value="Cancel"></td>
 							</tr>
